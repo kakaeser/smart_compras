@@ -1,4 +1,6 @@
-#🛒 Economizador de Compras
+# Ecomomizador de compras
+
+🛒 Economizador de Compras
 Economizador de Compras é um sistema inteligente que busca oferecer a melhor economia possível durante a compra de alimentos, centralizando e analisando os preços de diversos supermercados em tempo real. Com ele, o usuário poderá visualizar os produtos disponíveis em supermercados próximos, montar sua lista de compras e identificar onde vale mais a pena comprar — considerando inclusive o custo de deslocamento.
 
 💡 Visão Geral

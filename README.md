@@ -3,10 +3,12 @@
 🛒 Economizador de Compras
 Economizador de Compras é um sistema inteligente que busca oferecer a melhor economia possível durante a compra de alimentos, centralizando e analisando os preços de diversos supermercados em tempo real. Com ele, o usuário poderá visualizar os produtos disponíveis em supermercados próximos, montar sua lista de compras e identificar onde vale mais a pena comprar — considerando inclusive o custo de deslocamento.
 
-💡 Visão Geral
+💡 Visão Geral:
+
 A proposta é simular uma espécie de “teletransporte” virtual entre supermercados, reunindo todas as opções de produtos e preços em um só lugar. Isso encurta a distância entre o consumidor e os preços mais vantajosos.
 
-🔄 Níveis de Funcionamento
+🔄 Níveis de Funcionamento:
+
 🧭 Nível 1 – Raio de Análise
 O usuário define a região de interesse (raio geográfico) para consulta de supermercados.
 

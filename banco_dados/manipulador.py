@@ -3,6 +3,11 @@ import os
 
 
 class Manipulador:
+
+    def caminho_arquivo():
+        pasta_base = os.path.dirname(__file__)
+        return os.path.join(pasta_base, "..", "banco_dados", "usuarios.json")
+
     @staticmethod
     def salvar_dados(nome, email, senha, cpf, cep):
         novo_usuario = {
@@ -15,8 +20,9 @@ class Manipulador:
 
         dados_existentes = []
 
-        if os.path.exists("usuarios.json"):
-            with open("usuarios.json", "r") as arquivo:
+        caminho = Manipulador.caminho_arquivo()
+        if os.path.exists(caminho):
+            with open(caminho, "r") as arquivo:
                 try:
                     dados_existentes = json.load(arquivo)
                     if not isinstance(dados_existentes, list):
@@ -30,15 +36,16 @@ class Manipulador:
 
         dados_existentes.append(novo_usuario)
 
-        with open("usuarios.json", "w") as arquivo:
+        with open(caminho, "w") as arquivo:
             json.dump(dados_existentes, arquivo, indent=4)
 
         return True  # Sucesso
 
     @staticmethod
     def carregar_dados(identificador):
-        if os.path.exists("usuarios.json"):
-            with open("usuarios.json", "r") as arquivo:
+        caminho = Manipulador.caminho_arquivo()
+        if os.path.exists(caminho):
+            with open(caminho, "r") as arquivo:
                 try:
                     dados = json.load(arquivo)
                     if isinstance(dados, list):

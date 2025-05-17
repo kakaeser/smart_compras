@@ -1,5 +1,5 @@
 from customtkinter import *
-from manipulador import Manipulador
+from banco_dados.manipulador import Manipulador
 
 class Interface:
     

@@ -1,0 +1,33 @@
+[
+    {
+        "nome": "Eduardo",
+        "email": "eduardokaeser11@gmail.com",
+        "senha": "123456",
+        "cpf": "11122233344",
+        "cep": "11222333"
+        
+    },
+    {
+        "nome": "Kaeser",
+        "email": "edug4mer10@gmail.com",
+        "senha": "123456",
+        "cpf": "22233344455",
+        "cep": "22333444"
+        
+    },
+    {
+        "nome": "estevao",
+        "email": "estevaooh2@gmail.com",
+        "senha": "123456",
+        "cpf": "44455566677",
+        "cep": "55666444"
+        
+    },
+    {
+        "nome": "kaka",
+        "email": "eduardokaeser12@gmail.com",
+        "senha": "1234",
+        "cpf": "4443332255",
+        "cep": "99888666"
+    }
+]

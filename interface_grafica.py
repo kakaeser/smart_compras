@@ -1,53 +1,14 @@
 from customtkinter import *
-import json
-import os
+from manipulador import Manipulador
 
 class Interface:
     
     def __init__(self):
-        self.senha = "839238098"
-        self.nome = "3123131313"
+        self.senha = ""
+        self.nome = ""
+        self.email = ""
         
         
-
-    def salvar_dados(self, cpf, cep, email):
-        dados_novo_usuario = {
-            "nome": self.nome,
-            "email": email,
-            "cpf": cpf,
-            "cep": cep,
-            "senha": self.senha
-        }
-
-        dados_existentes = []  # Inicializa como lista vazia
-
-        if os.path.exists("usuarios.json"):  # Verifica se o arquivo já existe
-            with open("usuarios.json", "r") as arquivo:
-                try:
-                    dados_existentes = json.load(arquivo)  # Lê os dados do JSON
-                    if not isinstance(dados_existentes, list):
-                        dados_existentes = []  # Garante que seja uma lista
-                except json.JSONDecodeError:
-                    dados_existentes = []  # Se houver erro, mantém a lista vazia
-
-        dados_existentes.append(dados_novo_usuario)  # Adiciona o novo usuário à lista
-
-        with open("usuarios.json", "w") as arquivo:  # Salva a lista completa no JSON
-            json.dump(dados_existentes, arquivo, indent=4)
-
-    def carregar_dados(self, nome_usuario):
-        if os.path.exists("usuarios.json"):
-            with open("usuarios.json", "r") as arquivo:
-                try:
-                    dados = json.load(arquivo)
-                    if isinstance(dados, list):  # Garante que seja uma lista
-                        for usuario in dados:
-                            if usuario.get("nome") == nome_usuario:  # Busca pelo nome
-                                self.nome = usuario.get("nome", "")
-                                self.senha = usuario.get("senha", "")
-                                return  # Sai da função ao encontrar o usuário
-                except json.JSONDecodeError:
-                    pass  
 
     def App(self):
         ## Inicialização do app
@@ -90,18 +51,25 @@ class Interface:
         cpassword = CTkEntry(master= cadastro, placeholder_text="Confirmar Senha", show = "*")
         cpassword.place(relx = 0.5, rely = 0.7, relwidth = 0.5, relheight = 0.08, anchor="center")
 
-        def autenticar():
+       def autenticar():
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
                 erro_label.configure(text="Você não preencheu todos os campos!!")
-            elif cpassword.get() != password.get():
+                return
+            
+
+            if cpassword.get() != password.get():
                 erro_label.configure(text="Sua senha não é a mesma que você quis confirmar")
-            elif user.get() == self.carregar_dados(user.get()):
-                erro_label.configure(text="Já existe um usuário com esse nome")
-            else:
-                self.nome = user.get()
-                self.senha = password.get()
-                self.salvar_dados(cpf.get(), cep.get(), email.get())
-                cadastro.destroy()
+                return
+                
+            sucesso = Manipulador.salvar_dados(user.get(),email.get(),password.get(), cpf.get(), cep.get())
+            if not sucesso:
+                erro_label.configure(text="Usuário ou email já existem")
+                return
+                
+            self.nome = user.get()
+            self.email = email.get()
+            self.senha = password.get()
+            cadastro.destroy()
 
         btn = CTkButton(master=cadastro, text="Criar", corner_radius=32,fg_color="#1bd1a4",hover_color="#118f70", command= autenticar)
         btn.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
@@ -150,11 +118,14 @@ class Interface:
 
         #Função de validação de usuario e senha
         def validar_userps():
-            usuario = user.get()
+            nome_email = user.get()
             senha = password.get()
-            self.carregar_dados(usuario)
-            if usuario == self.nome and senha == self.senha:
-                print("Login bem-sucedido!")
+            usuario = Manipulador.carregar_dados(nome_email)
+
+            if usuario and usuario["senha"] == senha:
+                self.nome = usuario["nome"]
+                self.email = usuario["email"]
+                self.senha = usuario["senha"]
                 login.destroy()
                 self.App()
             else:

@@ -51,7 +51,7 @@ class Interface:
         cpassword = CTkEntry(master= cadastro, placeholder_text="Confirmar Senha", show = "*")
         cpassword.place(relx = 0.5, rely = 0.7, relwidth = 0.5, relheight = 0.08, anchor="center")
 
-       def autenticar():
+        def autenticar():
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
                 erro_label.configure(text="Você não preencheu todos os campos!!")
                 return

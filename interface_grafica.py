@@ -1,7 +1,9 @@
 from customtkinter import *
 from banco_dados.manipulador import Manipulador
+from classes.usuario import Usuario
+from PIL import Image
 
-class Interface:
+class InterfaceGrafica:
     
     def __init__(self):
         self.senha = ""
@@ -14,13 +16,22 @@ class Interface:
         ## Inicialização do app
         app = CTk()
         app.geometry("1280x720")
+        app.title("SmartCompras")
+        
+        def close():
+          app.destroy()
+        
+        fechar = CTkButton(master = app, text= "Fechar", command = close, corner_radius = 0)
+        fechar.place(relx = 0.5, rely = 0.5, anchor = "center")
         
 
         ## Inicialização barra lateral
-        barralat = CTkFrame(master = app, fg_color="#1bd1a4", corner_radius=0)
+        barralat = CTkFrame(master = app, fg_color="#17C5CE", corner_radius=0)
         barralat.place(relx = 0, rely = 0.5, relheight = 1, anchor = "center")
+        user = CTkButton(master = barralat, text = "Teste", corner_radius = 32, fg_color = "transparent", hover_color="#1299A0")
+        user.place(relx = 0.75, rely = 0.8, anchor ="center")
         app.mainloop()
-
+  
     def cadastro(self):
         cadastro = CTk()
         cadastro.geometry("500x700")
@@ -71,7 +82,7 @@ class Interface:
             self.senha = password.get()
             cadastro.destroy()
 
-        btn = CTkButton(master=cadastro, text="Criar", corner_radius=32,fg_color="#1bd1a4",hover_color="#118f70", command= autenticar)
+        btn = CTkButton(master=cadastro, text="Criar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command= autenticar)
         btn.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
 
         cadastro.mainloop()
@@ -85,8 +96,10 @@ class Interface:
         set_appearance_mode("dark")
 
         ## Titulo e texto de login
-        titulo = CTkLabel(master=login, text="Economizador de compras", font = ("Montserrat", 20))
+        logo = CTkImage(Image.open("imagens/logo.png"), size =(120,120))
+        titulo = CTkLabel(master = login, image= logo, text="")
         titulo.place(relx = 0.5, rely = 0.2, anchor = "center")
+        
         textin = CTkLabel(master=login, text="Login :", font = ("Montserrat", 12))
         textin.place(relx = 0.4, rely = 0.33, relwidth = 0.25, relheight = 0.08, anchor = "center")
         
@@ -126,6 +139,7 @@ class Interface:
                 self.nome = usuario["nome"]
                 self.email = usuario["email"]
                 self.senha = usuario["senha"]
+                usuario_instancia = Usuario(usuario["nome"] ,usuario["email"], usuario["senha"], usuario["cpf"], usuario["cep"])
                 login.destroy()
                 self.App()
             else:
@@ -139,7 +153,7 @@ class Interface:
             cadastro.configure(font=("Montserrat", 12))
 
         # Botão de mostrar senha
-        mostrar = CTkCheckBox(master= login, text="Mostra senha", corner_radius= 4, fg_color="#1bd1a4", checkbox_height= 16, checkbox_width= 16, command= mostraSenha)
+        mostrar = CTkCheckBox(master= login, text="Mostra senha", corner_radius= 4, fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16, command= mostraSenha)
         mostrar.place(relx = 0.5, rely = 0.57, relwidth = 0.25, relheight = 0.08, anchor = "center")
 
         cadastro = CTkButton(master=login, text="Criar uma nova conta", font = ("Montserrat", 12), fg_color="transparent",text_color="#807D7D",hover="#6B6B6B", cursor="hand2", command = self.cadastro)
@@ -149,7 +163,7 @@ class Interface:
 
 
         ## Botão de login
-        btn = CTkButton(master=login, text="Entrar", corner_radius=32,fg_color="#1bd1a4",hover_color="#118f70", command= validar_userps)
+        btn = CTkButton(master=login, text="Entrar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command= validar_userps)
         btn.place(relx = 0.5, rely = 0.7, relwidth = 0.25, anchor = "center")
 
         ## Switch de tema
@@ -159,7 +173,6 @@ class Interface:
         login.mainloop()  
 
        
-inter = Interface()
-inter.login()
+
 
 

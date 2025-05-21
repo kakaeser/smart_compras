@@ -1,0 +1,26 @@
+# Ignorar cache e bytecode do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+# Ignorar imagens temporárias ou de teste
+imagens/*.tmp
+imagens/*.psd
+imagens/*.xcf
+
+# Ignorar arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar configurações locais de editores
+*.swp
+*.swo
+
+# Ignorar arquivo de ambiente virtual (caso use)
+env/
+venv/
+
+# Ignorar arquivos do Termux/Android
+storage/

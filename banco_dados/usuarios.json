@@ -1,51 +1,34 @@
 [
     {
-        "nome": "Eduardo",
+        "nome": "kaka",
         "email": "eduardokaeser11@gmail.com",
-        "senha": "123456",
+        "senha": "1234",
         "cpf": "11122233344",
-        "cep": "11222333"
+        "cep": "22333444",
+        "id": "USR9928"
+    },
+    {
+        "nome": "Estevao",
+        "email": "estevao.ufmg@gmail.com",
+        "senha": "123",
+        "cpf": "0001112200",
+        "cep": "123456789",
+        "id": "USR7455"
     },
     {
         "nome": "Kaeser",
-        "email": "edug4mer10@gmail.com",
-        "senha": "123456",
-        "cpf": "22233344455",
-        "cep": "22333444"
-    },
-    {
-        "nome": "estevao",
-        "email": "estevaooh2@gmail.com",
-        "senha": "123456",
-        "cpf": "44455566677",
-        "cep": "55666444"
-    },
-    {
-        "nome": "kaka",
-        "email": "eduardokaeser12@gmail.com",
+        "email": "eueu@gmail.com",
         "senha": "1234",
-        "cpf": "4443332255",
-        "cep": "99888666"
+        "cpf": "55566677788",
+        "cep": "00999888",
+        "id": "USR2900"
     },
     {
-        "nome": "jf",
-        "email": "jf@",
-        "senha": "1324",
-        "cpf": "1234",
-        "cep": "4321"
-    },
-    {
-        "nome": "1",
-        "email": "2",
-        "senha": "5",
-        "cpf": "3",
-        "cep": "4"
-    },
-    {
-        "nome": "12",
-        "email": "1",
-        "senha": "1",
-        "cpf": "1",
-        "cep": "1"
+        "nome": "gui",
+        "email": "fdfd",
+        "senha": "gui",
+        "cpf": "12321",
+        "cep": "124314",
+        "id": "USR5171"
     }
 ]

@@ -1,5 +1,6 @@
 import json
 import os
+import random
 
 
 class Manipulador:
@@ -7,15 +8,31 @@ class Manipulador:
     def caminho_arquivo():
         pasta_base = os.path.dirname(__file__)
         return os.path.join(pasta_base, "..", "banco_dados", "usuarios.json")
+    
+
+    def gerar_id_aleatorio_unico():
+      try:
+          with open("usuarios.json", "r") as f:
+              dados = json.load(f)
+              ids_existentes = {usuario["id"] for usuario in dados}
+      except FileNotFoundError:
+          ids_existentes = set()
+  
+      while True:
+          novo_id = random.randint(1000, 9999)
+          if novo_id not in ids_existentes:
+              return f"USR{novo_id}"
 
     @staticmethod
     def salvar_dados(nome, email, senha, cpf, cep):
+        id1 = Manipulador.gerar_id_aleatorio_unico()
         novo_usuario = {
             "nome": nome,
             "email": email,
             "senha": senha,
             "cpf": cpf,
-            "cep": cep
+            "cep": cep,
+            "id": id1
         }
 
         dados_existentes = []

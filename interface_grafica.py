@@ -18,18 +18,41 @@ class InterfaceGrafica:
         app.geometry("1280x720")
         app.title("SmartCompras")
         
+        ## Instanciando o objeto Usuario
+        dados = Manipulador.carregar_dados(self.nome)
+        usuario = Usuario(dados["nome"] ,dados["email"], dados["senha"], dados["cpf"], dados["cep"] ,dados["id"])
+        
         def close():
           app.destroy()
+          
+          
+        def mostrar_usuario():
+          open_user = CTkToplevel(app)
+          open_user.geometry("500x700")
+          open_user.title("Usuário")
+          
+          fechar1 = CTkButton(master = open_user, text= "Fechar", command = open_user.destroy, corner_radius = 0)
+          fechar1.place(relx = 0.5, rely = 0.8, anchor = "center")
+          
         
         fechar = CTkButton(master = app, text= "Fechar", command = close, corner_radius = 0)
         fechar.place(relx = 0.5, rely = 0.5, anchor = "center")
+        
+        logo = CTkImage(Image.open("imagens/logo.png"), size =(120,120))
+        if get_appearance_mode() == "Dark":
+          user1 = CTkImage(Image.open("imagens/usuario2.png"), size = (30,30))
+        else:
+          user1 = CTkImage(Image.open("imagens/usuario1.png"), size = (30,30))
         
 
         ## Inicialização barra lateral
         barralat = CTkFrame(master = app, fg_color="#17C5CE", corner_radius=0)
         barralat.place(relx = 0, rely = 0.5, relheight = 1, anchor = "center")
-        user = CTkButton(master = barralat, text = "Teste", corner_radius = 32, fg_color = "transparent", hover_color="#1299A0")
-        user.place(relx = 0.75, rely = 0.8, anchor ="center")
+        
+        
+        user = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color="#1299A0", image= user1, command= mostrar_usuario)
+        user.place(relx = 0.75, rely = 0.8, relwidth = 0.3,anchor ="center")
+        
         app.mainloop()
   
     def cadastro(self):
@@ -139,7 +162,7 @@ class InterfaceGrafica:
                 self.nome = usuario["nome"]
                 self.email = usuario["email"]
                 self.senha = usuario["senha"]
-                usuario_instancia = Usuario(usuario["nome"] ,usuario["email"], usuario["senha"], usuario["cpf"], usuario["cep"])
+                
                 login.destroy()
                 self.App()
             else:

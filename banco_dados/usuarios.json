@@ -30,5 +30,13 @@
         "cpf": "12321",
         "cep": "124314",
         "id": "USR5171"
+    },
+    {
+        "nome": "Ed",
+        "email": "ed",
+        "senha": "123",
+        "cpf": "ed",
+        "cep": "ed",
+        "id": "USR7050P"
     }
 ]

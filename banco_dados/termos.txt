@@ -1,0 +1,45 @@
+TERMO DE COMPROMISSO DE USO DO APLICATIVO SMARTCOMPRAS
+Pelo presente instrumento particular, o(a) usuário(a), ao aceitar este termo, declara que leu, compreendeu e concorda integralmente com as condições abaixo estabelecidas:
+
+1. OBJETO
+O presente Termo de Compromisso regula o uso do aplicativo denominado SmartCompras, de propriedade de sua respectiva equipe de desenvolvimento, cuja finalidade é fornecer ferramentas para organização, controle e gerenciamento de compras pessoais e preferências do usuário.
+
+2. DAS OBRIGAÇÕES DO USUÁRIO
+O usuário compromete-se a:
+
+2.1. Fornecer informações verídicas, completas e atualizadas no momento do cadastro e durante o uso da plataforma;
+
+2.2. Manter o sigilo de seus dados de acesso (login e senha), responsabilizando-se por todas as ações realizadas sob sua conta;
+
+2.3. Utilizar o aplicativo conforme os princípios da boa-fé, respeito às normas legais vigentes, aos direitos de terceiros e aos presentes termos;
+
+2.4. Abster-se de utilizar o aplicativo para quaisquer fins ilícitos, imorais, ofensivos ou que contrariem as políticas da plataforma;
+
+2.5. Notificar imediatamente os responsáveis pelo aplicativo em caso de acesso indevido ou suspeita de violação de segurança.
+
+3. DAS RESPONSABILIDADES DO DESENVOLVEDOR
+3.1. O SmartCompras compromete-se a proteger os dados pessoais do usuário, observando os princípios da Lei Geral de Proteção de Dados (Lei nº 13.709/2018), utilizando as informações fornecidas exclusivamente para fins funcionais e operacionais do aplicativo;
+
+3.2. O desenvolvedor não se responsabiliza por:
+
+Interrupções, falhas técnicas ou indisponibilidades do serviço;
+
+Danos diretos ou indiretos decorrentes do uso ou da impossibilidade de uso da aplicação;
+
+Conteúdos ou condutas de terceiros relacionados ao uso do aplicativo.
+
+4. DAS MODIFICAÇÕES NO APLICATIVO E NO TERMO
+4.1. O SmartCompras poderá, a qualquer tempo e a seu exclusivo critério, alterar, atualizar, suspender ou encerrar funcionalidades, bem como modificar este Termo de Compromisso;
+
+4.2. É de responsabilidade do usuário manter-se atualizado quanto às eventuais modificações deste termo, que serão divulgadas no próprio aplicativo.
+
+5. DA RESCISÃO
+5.1. O descumprimento de quaisquer das cláusulas deste termo poderá ensejar a suspensão ou exclusão da conta do usuário, sem prejuízo das demais medidas legais cabíveis.
+
+6. DA LEGISLAÇÃO APLICÁVEL
+6.1. Este Termo será regido e interpretado de acordo com as leis da República Federativa do Brasil, especialmente a Lei nº 13.709/2018 (LGPD) e o Marco Civil da Internet (Lei nº 12.965/2014).
+
+6.2. As partes elegem o foro da comarca do domicílio do usuário como competente para dirimir eventuais controvérsias, com renúncia a qualquer outro, por mais privilegiado que seja.
+
+Última atualização: 22/05/2025
+Contato para suporte: eduardokaeser11@gmail.com

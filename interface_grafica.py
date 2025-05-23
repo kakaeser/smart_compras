@@ -1,6 +1,7 @@
 from customtkinter import *
-from banco_dados.manipulador import Manipulador
+from banco_dados.manipulador_user import Manipulador_User
 from classes.usuario import Usuario
+from classes.usuariopremium import UsuarioPremium
 from PIL import Image
 
 class InterfaceGrafica:
@@ -19,8 +20,11 @@ class InterfaceGrafica:
         app.title("SmartCompras")
         
         ## Instanciando o objeto Usuario
-        dados = Manipulador.carregar_dados(self.nome)
-        usuario = Usuario(dados["nome"] ,dados["email"], dados["senha"], dados["cpf"], dados["cep"] ,dados["id"])
+        dados = Manipulador_User.carregar_dados(self.nome)
+        if len(dados["id"]) == 7:
+            usuario = Usuario(dados["nome"] ,dados["email"], dados["senha"], dados["cpf"], dados["cep"] ,dados["id"])
+        elif len(dados["id"]) == 8:
+            usuario = UsuarioPremium(dados["nome"] ,dados["email"], dados["senha"], dados["cpf"], dados["cep"] ,dados["id"])
         
         def close():
           app.destroy()
@@ -59,31 +63,80 @@ class InterfaceGrafica:
         cadastro = CTk()
         cadastro.geometry("500x700")
         cadastro.title("Cadastrar")
+        select : bool
+        
 
         erro_label = CTkLabel(master=cadastro, text="", text_color="red")
         erro_label.place(relx=0.5, rely=0.85, anchor="center")
 
         textin = CTkLabel(master=cadastro, text="Insira os dados :", font = ("Montserrat", 12))
-        textin.place(relx = 0.4, rely = 0.33, relwidth = 0.25, relheight = 0.08, anchor = "center")
 
         user = CTkEntry(master = cadastro, placeholder_text= "Nome")
-        user.place(relx = 0.5, rely = 0.2, relwidth = 0.5, relheight = 0.08, anchor="center")
 
         email = CTkEntry(master= cadastro, placeholder_text="Email")
-        email.place(relx = 0.5, rely = 0.3, relwidth = 0.5, relheight = 0.08, anchor="center")
 
         cpf = CTkEntry(master= cadastro, placeholder_text="CPF")
-        cpf.place(relx = 0.5, rely = 0.4, relwidth = 0.5, relheight = 0.08, anchor="center")
 
         cep = CTkEntry(master= cadastro, placeholder_text="CEP")
-        cep.place(relx = 0.5, rely = 0.5, relwidth = 0.5, relheight = 0.08, anchor="center")
-
-
+    
         password = CTkEntry(master= cadastro, placeholder_text="Senha", show = "*")
-        password.place(relx = 0.5, rely = 0.6, relwidth = 0.5, relheight = 0.08, anchor="center")
-
+        
         cpassword = CTkEntry(master= cadastro, placeholder_text="Confirmar Senha", show = "*")
-        cpassword.place(relx = 0.5, rely = 0.7, relwidth = 0.5, relheight = 0.08, anchor="center")
+        
+
+        
+
+
+        def termos():
+            termo = CTkTextbox(master= cadastro)
+            try:
+                with open("banco_dados/termos.txt", "r", encoding="utf-8") as arquivo:
+                    conteudo = arquivo.read()
+                    termo.insert("0.0", conteudo)
+            except FileNotFoundError:
+                termo.insert("0.0", "Arquivo de termos não encontrado.")
+            termo.configure(state="disabled")
+            termo.place(relx = 0.5, rely = 0.4, relwidth = 0.6 , relheight= 0.6,anchor ="center")
+            def criacao():
+                termo.destroy()
+                mostrar.destroy()
+                confirm.destroy()
+                
+                textin.place(relx = 0.4, rely = 0.33, relwidth = 0.25, relheight = 0.08, anchor = "center")
+                user.place(relx = 0.5, rely = 0.2, relwidth = 0.5, relheight = 0.08, anchor="center")
+                email.place(relx = 0.5, rely = 0.3, relwidth = 0.5, relheight = 0.08, anchor="center")
+                cpf.place(relx = 0.5, rely = 0.4, relwidth = 0.5, relheight = 0.08, anchor="center")
+                cep.place(relx = 0.5, rely = 0.5, relwidth = 0.5, relheight = 0.08, anchor="center")
+                password.place(relx = 0.5, rely = 0.6, relwidth = 0.5, relheight = 0.08, anchor="center")
+                cpassword.place(relx = 0.5, rely = 0.7, relwidth = 0.5, relheight = 0.08, anchor="center")
+                btn.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
+
+            confirm = CTkButton(master=cadastro, text="Continuar", corner_radius=32,fg_color="transparent")
+            confirm.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
+
+            def aceitar():
+                if mostrar.get() == 1:
+                    confirm.configure(fg_color="#17C5CE",hover_color="#1299A0", state ="normal",command= criacao)
+                else:
+                    confirm.configure(fg_color="transparent", state = "disabled" , command=lambda: None)
+
+            mostrar = CTkCheckBox(master= cadastro, text="Li e concordo com os termos", corner_radius= 4, fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16, command= aceitar )
+            mostrar.place(relx = 0.5, rely = 0.75, relwidth = 0.4, relheight = 0.03, anchor = "center")
+
+            
+        def premium_select():
+            nonlocal select 
+            select = True
+            normal.destroy()
+            premium.destroy()
+            termos()
+        
+        def normal_select():
+            nonlocal select 
+            select = False
+            normal.destroy()
+            premium.destroy()
+            termos()
 
         def autenticar():
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
@@ -95,18 +148,26 @@ class InterfaceGrafica:
                 erro_label.configure(text="Sua senha não é a mesma que você quis confirmar")
                 return
                 
-            sucesso = Manipulador.salvar_dados(user.get(),email.get(),password.get(), cpf.get(), cep.get())
+            sucesso = Manipulador_User.salvar_dados(user.get(),email.get(),password.get(), cpf.get(), cep.get(), select)
             if not sucesso:
                 erro_label.configure(text="Usuário ou email já existem")
                 return
-                
+            
             self.nome = user.get()
             self.email = email.get()
             self.senha = password.get()
             cadastro.destroy()
 
+        
+
+        normal = CTkButton(master = cadastro, text = "Plano padrão \n\n R$00,00\n\n ● Calculo de qual\nsupermercado é\nmais economico\n\n ● Pequenas ofertas", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command = normal_select)
+        normal.place(relx = 0.28, rely = 0.5, relwidth = 0.4 , relheight= 0.6,anchor ="center")
+
+        premium = CTkButton(master = cadastro, text = "Plano Premium \n\n R$12,90\n\n ● Ofertas maiores \n\n ● Calcula o gasto de \ncombustivel\n\n ● Visualização de\nchegada de produtos", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command= premium_select)
+        premium.place(relx = 0.72, rely = 0.5, relwidth = 0.4 , relheight= 0.6,anchor ="center")
+
         btn = CTkButton(master=cadastro, text="Criar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command= autenticar)
-        btn.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
+        
 
         cadastro.mainloop()
 
@@ -156,7 +217,7 @@ class InterfaceGrafica:
         def validar_userps():
             nome_email = user.get()
             senha = password.get()
-            usuario = Manipulador.carregar_dados(nome_email)
+            usuario = Manipulador_User.carregar_dados(nome_email)
 
             if usuario and usuario["senha"] == senha:
                 self.nome = usuario["nome"]
@@ -190,7 +251,7 @@ class InterfaceGrafica:
         btn.place(relx = 0.5, rely = 0.7, relwidth = 0.25, anchor = "center")
 
         ## Switch de tema
-        changeTheme = CTkSwitch(master= login, command = Tema, text="Tema claro",progress_color= "#95ada7")
+        changeTheme = CTkSwitch(master= login, command = Tema, text="Tema claro",progress_color= "#1299A0")
         changeTheme.place(relx = 0.2, rely = 0.9, anchor = "center")
 
         login.mainloop()  

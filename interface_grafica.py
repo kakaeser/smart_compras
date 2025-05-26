@@ -35,8 +35,66 @@ class InterfaceGrafica:
           open_user.geometry("500x700")
           open_user.title("Usuário")
           
-          fechar1 = CTkButton(master = open_user, text= "Fechar", command = open_user.destroy, corner_radius = 0)
-          fechar1.place(relx = 0.5, rely = 0.8, anchor = "center")
+          def edicao (campo):
+            campo.configure(state="normal")
+          
+          nome = CTkEntry(master = open_user, placeholder_text = usuario.nome)
+          nome.configure(state="disabled")
+          nome.place(relx = 0.45, rely = 0.2, relwidth = 0.38,  anchor = "center")
+          btn_nome = CTkButton(master = open_user, command= lambda:  edicao(nome), text="Editar", corner_radius = 4)
+          btn_nome.place(relx = 0.7, rely = 0.2,relwidth = 0.1, relheight = 0.04, anchor = "center")
+          
+          email = CTkEntry(master = open_user, placeholder_text = usuario.email)
+          email.configure(state="disabled")
+          email.place(relx = 0.45, rely = 0.3, relwidth = 0.38, anchor = "center")
+          btn_email = CTkButton(master = open_user, command= lambda:  edicao(email), text="Editar", corner_radius = 4)
+          btn_email.place(relx = 0.7, rely = 0.3,relwidth = 0.1, relheight = 0.04, anchor = "center")
+          
+          senha = CTkEntry(master = open_user, placeholder_text = usuario.senha)
+          senha.configure(state="disabled")
+          senha.place(relx = 0.45, rely = 0.4, relwidth = 0.38, anchor = "center")
+          btn_senha = CTkButton(master = open_user, command= lambda:  edicao(senha), text="Editar", corner_radius = 4)
+          btn_senha.place(relx = 0.7, rely = 0.4,relwidth = 0.1, relheight = 0.04, anchor = "center")
+          
+          cpf = CTkEntry(master = open_user, placeholder_text = usuario.cpf)
+          cpf.configure(state="disabled")
+          cpf.place(relx = 0.45, rely = 0.5, relwidth = 0.38, anchor = "center")
+          btn_cpf = CTkButton(master = open_user, command= lambda:  edicao(cpf), text="Editar", corner_radius = 4)
+          btn_cpf.place(relx = 0.7, rely = 0.5,relwidth = 0.1, relheight = 0.04, anchor = "center")
+          
+          cep = CTkEntry(master = open_user, placeholder_text = usuario.cep)
+          cep.configure(state="disabled")
+          cep.place(relx = 0.45, rely = 0.6, relwidth = 0.38, anchor = "center")
+          btn_cep = CTkButton(master = open_user, command= lambda:  edicao(cep), text="Editar", corner_radius = 4)
+          btn_cep.place(relx = 0.7, rely = 0.6,relwidth = 0.1, relheight = 0.04, anchor = "center")
+          
+          def alterar_dados():
+            if nome.get() != "":
+              Manipulador_User.editar_dados(usuario.nome, "nome", nome.get())
+              usuario.alterar_nome(nome.get())
+            if email.get() != "":
+              Manipulador_User.editar_dados(usuario.nome, "email", email.get())
+              usuario.alterar_email(email.get())
+            if senha.get() != "":
+              Manipulador_User.editar_dados(usuario.nome, "senha", senha.get())
+              usuario.alterar_senha(senha.get())
+            if cpf.get() != "":
+              Manipulador_User.editar_dados(usuario.nome, "cpf", cpf.get())
+              usuario.alterar_cpf(cpf.get())
+            if cep.get() != "":
+              Manipulador_User.editar_dados(usuario.nome, "cep", cep.get())
+              usuario.alterar_cep(senha.get())
+            open_user.destroy()
+            
+          cancelar = CTkButton(master = open_user, text= "Cancelar", command = open_user.destroy, corner_radius = 0, fg_color="transparent",hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"))
+          cancelar.place(relx = 0.7, rely = 0.75, anchor = "center")
+          
+          alterar = CTkButton(master = open_user, text= "Alterar", corner_radius = 0, command = alterar_dados)
+          if nome.get() == "" and email.get() == "" and cpf.get() == "" and cep.get() == "" and senha.get() == "":
+            alterar.configure(fg_color="transparent", state ="disabled")
+          else:
+            alterar.configure(fg_color="#17C5CE",hover_color="#1299A0", state ="normal") 
+          alterar.place(relx = 0.3, rely = 0.75, anchor = "center")
           
         
         fechar = CTkButton(master = app, text= "Fechar", command = close, corner_radius = 0)
@@ -142,7 +200,13 @@ class InterfaceGrafica:
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
                 erro_label.configure(text="Você não preencheu todos os campos!!")
                 return
-            
+            if len(cpf.get()) != 11:
+                erro_label.configure(text="CPF inválido")
+                return
+              
+            if len(cep.get()) != 11:
+                erro_label.configure(text="CEP inválido")
+                return
 
             if cpassword.get() != password.get():
                 erro_label.configure(text="Sua senha não é a mesma que você quis confirmar")

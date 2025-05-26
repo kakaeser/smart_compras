@@ -38,5 +38,13 @@
         "cpf": "ed",
         "cep": "ed",
         "id": "USR7050P"
+    },
+    {
+        "nome": "Bogolino",
+        "email": "vivatchristusrex",
+        "senha": "farofa",
+        "cpf": "79245829980",
+        "cep": "23456789",
+        "id": "USR2095P"
     }
 ]

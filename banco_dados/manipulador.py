@@ -12,3 +12,6 @@ class Manipulador(ABC):
     @abstractmethod
     def carregar_dados(self):
         pass
+    @abstractmethod
+    def editar_dados(self):
+        pass

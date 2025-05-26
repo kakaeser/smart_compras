@@ -76,3 +76,31 @@ class Manipulador_User(Manipulador):
                 except json.JSONDecodeError:
                     pass
         return None
+        
+    @staticmethod  
+    def editar_dados(identificador, campo, novo_valor):
+        caminho = Manipulador_User.caminho_arquivo()
+        try:
+            with open(caminho, "r", encoding="utf-8") as f:
+                usuarios = json.load(f)
+  
+            for usuario in usuarios:
+                if usuario["email"] == identificador or usuario["nome"] == identificador:
+                    if campo in usuario:
+                        usuario[campo] = novo_valor
+                    else:
+                        print(f"Campo '{campo}' não encontrado no usuário.")
+                        return False
+                    break
+            else:
+                print("Usuário não encontrado.")
+                return False
+  
+            with open(caminho, "w", encoding="utf-8") as f:
+                json.dump(usuarios, f, indent=4, ensure_ascii=False)
+  
+            return True
+  
+        except Exception as e:
+            print("Erro ao editar usuário:", e)
+            return False

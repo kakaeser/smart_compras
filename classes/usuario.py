@@ -8,7 +8,17 @@ class Usuario:
     self.cep = cep
     self.id_user = id_user
   
-  def mostrar_dados(self):
-    print(f"{self.nome} {self.email} {self.senha} {self.cpf} {self.cep} {self.id_user}")
-
+  def alterar_nome(self, n_nome):
+    self.nome = n_nome
     
+  def alterar_email(self, n_email):
+    self.email = n_email
+    
+  def alterar_senha(self, n_senha):
+    self.senha = n_senha
+    
+  def alterar_cpf(self, n_cpf):
+    self.cpf = n_cpf
+
+  def alterar_cep(self, n_cep):
+    self.cep = n_cep

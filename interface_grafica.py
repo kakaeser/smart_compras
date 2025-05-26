@@ -18,6 +18,13 @@ class InterfaceGrafica:
         app = CTk()
         app.geometry("1280x720")
         app.title("SmartCompras")
+
+        #iniciação das imagens
+        logo = CTkImage(Image.open("imagens/logo.png"), size =(128,128))
+        user = CTkImage(Image.open("imagens/usuario.png"), size = (32,32))
+        edit = CTkImage(Image.open("imagens/editar.png"), size = (16,16))
+        config = CTkImage(Image.open("imagens/config.png"), size = (32,32))
+        menu = CTkImage(Image.open("imagens/menu.png"), size = (32,32))
         
         ## Instanciando o objeto Usuario
         dados = Manipulador_User.carregar_dados(self.nome)
@@ -29,91 +36,124 @@ class InterfaceGrafica:
         def close():
           app.destroy()
           
-          
         def mostrar_usuario():
-          open_user = CTkToplevel(app)
-          open_user.geometry("500x700")
-          open_user.title("Usuário")
-          
-          def edicao (campo):
-            campo.configure(state="normal")
-          
-          nome = CTkEntry(master = open_user, placeholder_text = usuario.nome)
-          nome.configure(state="disabled")
-          nome.place(relx = 0.45, rely = 0.2, relwidth = 0.38,  anchor = "center")
-          btn_nome = CTkButton(master = open_user, command= lambda:  edicao(nome), text="Editar", corner_radius = 4)
-          btn_nome.place(relx = 0.7, rely = 0.2,relwidth = 0.1, relheight = 0.04, anchor = "center")
-          
-          email = CTkEntry(master = open_user, placeholder_text = usuario.email)
-          email.configure(state="disabled")
-          email.place(relx = 0.45, rely = 0.3, relwidth = 0.38, anchor = "center")
-          btn_email = CTkButton(master = open_user, command= lambda:  edicao(email), text="Editar", corner_radius = 4)
-          btn_email.place(relx = 0.7, rely = 0.3,relwidth = 0.1, relheight = 0.04, anchor = "center")
-          
-          senha = CTkEntry(master = open_user, placeholder_text = usuario.senha)
-          senha.configure(state="disabled")
-          senha.place(relx = 0.45, rely = 0.4, relwidth = 0.38, anchor = "center")
-          btn_senha = CTkButton(master = open_user, command= lambda:  edicao(senha), text="Editar", corner_radius = 4)
-          btn_senha.place(relx = 0.7, rely = 0.4,relwidth = 0.1, relheight = 0.04, anchor = "center")
-          
-          cpf = CTkEntry(master = open_user, placeholder_text = usuario.cpf)
-          cpf.configure(state="disabled")
-          cpf.place(relx = 0.45, rely = 0.5, relwidth = 0.38, anchor = "center")
-          btn_cpf = CTkButton(master = open_user, command= lambda:  edicao(cpf), text="Editar", corner_radius = 4)
-          btn_cpf.place(relx = 0.7, rely = 0.5,relwidth = 0.1, relheight = 0.04, anchor = "center")
-          
-          cep = CTkEntry(master = open_user, placeholder_text = usuario.cep)
-          cep.configure(state="disabled")
-          cep.place(relx = 0.45, rely = 0.6, relwidth = 0.38, anchor = "center")
-          btn_cep = CTkButton(master = open_user, command= lambda:  edicao(cep), text="Editar", corner_radius = 4)
-          btn_cep.place(relx = 0.7, rely = 0.6,relwidth = 0.1, relheight = 0.04, anchor = "center")
-          
-          def alterar_dados():
-            if nome.get() != "":
-              Manipulador_User.editar_dados(usuario.nome, "nome", nome.get())
-              usuario.alterar_nome(nome.get())
-            if email.get() != "":
-              Manipulador_User.editar_dados(usuario.nome, "email", email.get())
-              usuario.alterar_email(email.get())
-            if senha.get() != "":
-              Manipulador_User.editar_dados(usuario.nome, "senha", senha.get())
-              usuario.alterar_senha(senha.get())
-            if cpf.get() != "":
-              Manipulador_User.editar_dados(usuario.nome, "cpf", cpf.get())
-              usuario.alterar_cpf(cpf.get())
-            if cep.get() != "":
-              Manipulador_User.editar_dados(usuario.nome, "cep", cep.get())
-              usuario.alterar_cep(senha.get())
-            open_user.destroy()
+            open_user = CTkToplevel(app)
+            open_user.geometry("500x700")
+            open_user.title("Usuário")
+            entry_vars = {} 
+            entries = {} 
             
-          cancelar = CTkButton(master = open_user, text= "Cancelar", command = open_user.destroy, corner_radius = 0, fg_color="transparent",hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"))
-          cancelar.place(relx = 0.7, rely = 0.75, anchor = "center")
-          
-          alterar = CTkButton(master = open_user, text= "Alterar", corner_radius = 0, command = alterar_dados)
-          if nome.get() == "" and email.get() == "" and cpf.get() == "" and cep.get() == "" and senha.get() == "":
-            alterar.configure(fg_color="transparent", state ="disabled")
-          else:
-            alterar.configure(fg_color="#17C5CE",hover_color="#1299A0", state ="normal") 
-          alterar.place(relx = 0.3, rely = 0.75, anchor = "center")
+            valores_originais = {
+                "nome": usuario.nome,
+                "email": usuario.email,
+                "senha": usuario.senha,
+                "cpf": usuario.cpf,
+                "cep": usuario.cep
+            }
+
+            def checagem_alterar():
+                
+                mudanca = False
+                for key in valores_originais:
+                    current_value = entry_vars[key].get() 
+                    if current_value != "" and current_value != valores_originais[key]:
+                        mudanca = True
+                        break 
+
+                if mudanca:
+                    alterar.configure(fg_color="#17C5CE", hover_color="#1299A0", state="normal")
+                else:
+                    alterar.configure(fg_color="transparent", state="disabled")
+
+            def edicao(campo_widget): 
+                campo_widget.configure(state="normal", text_color=("#000000", "#FFFFFF")) 
+                checagem_alterar()
+
+            def alterar_dados():
+                if entry_vars["nome"].get() != "" and entry_vars["nome"].get() !=valores_originais["nome"]:
+                    Manipulador_User.editar_dados(usuario.nome, "nome", entry_vars["nome"].get())
+                    usuario.alterar_nome(entry_vars["nome"].get())
+                if entry_vars["email"].get() != "" and entry_vars["email"].get() !=valores_originais["email"]:
+                    Manipulador_User.editar_dados(usuario.nome, "email", entry_vars["email"].get())
+                    usuario.alterar_email(entry_vars["email"].get())
+                if entry_vars["senha"].get() != "" and entry_vars["senha"].get() !=valores_originais["senha"]:
+                    Manipulador_User.editar_dados(usuario.nome, "senha", entry_vars["senha"].get())
+                    usuario.alterar_senha(entry_vars["senha"].get())
+                if entry_vars["cpf"].get() != "" and entry_vars["cpf"].get() !=valores_originais["cpf"]:
+                    Manipulador_User.editar_dados(usuario.nome, "cpf", entry_vars["cpf"].get())
+                    usuario.alterar_cpf(entry_vars["cpf"].get())
+                if entry_vars["cep"].get() != "" and entry_vars["cep"].get() !=valores_originais["cep"]:
+                    Manipulador_User.editar_dados(usuario.nome, "cep", entry_vars["cep"].get())
+                    usuario.alterar_cep(entry_vars["cep"].get())
+
+                open_user.destroy()
+
+            campos_config = {
+                "nome": (usuario.nome, 0.2),
+                "email": (usuario.email, 0.3),
+                "senha": (usuario.senha, 0.4),
+                "cpf": (usuario.cpf, 0.5),
+                "cep": (usuario.cep, 0.6)
+            }
+
+            for key, (placeholder, rely_pos) in campos_config.items():
+               
+                entry_var = StringVar(master=open_user, value=placeholder)
+                entry_vars[key] = entry_var
+
+                entry = CTkEntry(master=open_user, textvariable=entry_var, text_color=("#808080", "#A0A0A0"), corner_radius=2)
+                entry.configure(state="disabled") 
+                entry.place(relx=0.46, rely=rely_pos, relwidth=0.38, relheight=0.046, anchor="center")
+                entries[key] = entry 
+                entry_var.trace_add("write", lambda name, index, mode: checagem_alterar())
+
+                btn_editar = CTkButton(master=open_user, command=lambda e=entry: edicao(e), text="", corner_radius=2, fg_color=("#B4B4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), image = edit)
+                btn_editar.place(relx=0.68, rely=rely_pos, relwidth=0.064, relheight=0.046, anchor="center")
+
+            titulo = CTkLabel(master= open_user, text= "Usuario" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 16, "bold"))
+            titulo.place(relx=0.32, rely=0.1, anchor="center")
+
+            label1 = CTkLabel(master= open_user, text= "Nome:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
+            label1.place(relx=0.31, rely=0.15, anchor="center")
+
+            label2 = CTkLabel(master= open_user, text= "Email:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
+            label2.place(relx=0.31, rely=0.25, anchor="center")
+
+            label3 = CTkLabel(master= open_user, text= "Senha:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
+            label3.place(relx=0.31, rely=0.35, anchor="center")
+
+            label4 = CTkLabel(master= open_user, text= "CPF:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
+            label4.place(relx=0.3, rely=0.45, anchor="center")
+
+            label5 = CTkLabel(master= open_user, text= "CEP:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
+            label5.place(relx=0.3, rely=0.55, anchor="center")
+
+            cancelar = CTkButton(master = open_user, text= "Cancelar", command = open_user.destroy, corner_radius = 0, fg_color="transparent",hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"))
+            cancelar.place(relx = 0.7, rely = 0.75, anchor = "center")
+
+            alterar = CTkButton(master = open_user, text= "Alterar", corner_radius = 0, command = alterar_dados)
+            alterar.place(relx = 0.3, rely = 0.75, anchor = "center")
+            checagem_alterar()
+        
           
         
         fechar = CTkButton(master = app, text= "Fechar", command = close, corner_radius = 0)
         fechar.place(relx = 0.5, rely = 0.5, anchor = "center")
         
-        logo = CTkImage(Image.open("imagens/logo.png"), size =(120,120))
-        if get_appearance_mode() == "Dark":
-          user1 = CTkImage(Image.open("imagens/usuario2.png"), size = (30,30))
-        else:
-          user1 = CTkImage(Image.open("imagens/usuario1.png"), size = (30,30))
         
 
         ## Inicialização barra lateral
-        barralat = CTkFrame(master = app, fg_color="#17C5CE", corner_radius=0)
+        barralat = CTkFrame(master = app, fg_color=("#B4B4B4", "#2C2C2C"), corner_radius=0)
         barralat.place(relx = 0, rely = 0.5, relheight = 1, anchor = "center")
         
+        menus = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= menu)
+        menus.place(relx = 0.75, rely = 0.05, relwidth = 0.3,anchor ="center")
         
-        user = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color="#1299A0", image= user1, command= mostrar_usuario)
-        user.place(relx = 0.75, rely = 0.8, relwidth = 0.3,anchor ="center")
+        users = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= user, command= mostrar_usuario)
+        users.place(relx = 0.75, rely = 0.85, relwidth = 0.3,anchor ="center")
+
+        configs = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= config)
+        configs.place(relx = 0.75, rely = 0.95, relwidth = 0.3,anchor ="center")
         
         app.mainloop()
   
@@ -204,7 +244,7 @@ class InterfaceGrafica:
                 erro_label.configure(text="CPF inválido")
                 return
               
-            if len(cep.get()) != 11:
+            if len(cep.get()) != 8:
                 erro_label.configure(text="CEP inválido")
                 return
 
@@ -244,9 +284,9 @@ class InterfaceGrafica:
         set_appearance_mode("dark")
 
         ## Titulo e texto de login
-        logo = CTkImage(Image.open("imagens/logo.png"), size =(120,120))
+        logo = CTkImage(Image.open("imagens/logo.png"), size =(128,128))
         titulo = CTkLabel(master = login, image= logo, text="")
-        titulo.place(relx = 0.5, rely = 0.2, anchor = "center")
+        titulo.place(relx = 0.5, rely = 0.18, anchor = "center")
         
         textin = CTkLabel(master=login, text="Login :", font = ("Montserrat", 12))
         textin.place(relx = 0.4, rely = 0.33, relwidth = 0.25, relheight = 0.08, anchor = "center")

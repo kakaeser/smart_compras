@@ -19,12 +19,25 @@ class InterfaceGrafica:
         app.geometry("1280x720")
         app.title("SmartCompras")
 
+        ##Variaveis para a barralateral
+        sidebar_width = 250
+        initial_x_pos = -sidebar_width 
+        menu_aberto = False
+        config_aberta = False
+
+        def Tema():
+            if changeTheme.get() == 1:
+                set_appearance_mode("light")
+            else:
+                set_appearance_mode("dark")
+
         #iniciação das imagens
         logo = CTkImage(Image.open("imagens/logo.png"), size =(128,128))
         user = CTkImage(Image.open("imagens/usuario.png"), size = (32,32))
         edit = CTkImage(Image.open("imagens/editar.png"), size = (16,16))
         config = CTkImage(Image.open("imagens/config.png"), size = (32,32))
         menu = CTkImage(Image.open("imagens/menu.png"), size = (32,32))
+        tema = CTkImage(Image.open("imagens/tema.png"), size = (16,16))
         
         ## Instanciando o objeto Usuario
         dados = Manipulador_User.carregar_dados(self.nome)
@@ -120,7 +133,7 @@ class InterfaceGrafica:
                 btn_editar.place(relx=0.68, rely=rely_pos, relwidth=0.064, relheight=0.046, anchor="center")
 
             titulo = CTkLabel(master= open_user, text= f"Usuario id: {usuario.id_user}" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 16, "bold"))
-            titulo.place(relx=0.32, rely=0.1, anchor="center")
+            titulo.place(relx=0.43, rely=0.1, anchor="center")
 
             label1 = CTkLabel(master= open_user, text= "Nome:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
             label1.place(relx=0.31, rely=0.15, anchor="center")
@@ -147,24 +160,94 @@ class InterfaceGrafica:
         
           
         
-        fechar = CTkButton(master = app, text= "Fechar", command = close, corner_radius = 0)
-        fechar.place(relx = 0.5, rely = 0.5, anchor = "center")
         
+        
+        ##Inicialização da barra horizontal
+        barrahori = CTkFrame(master = app, fg_color=("#A5A5A5", "#1B1B1B"), corner_radius=0)
+        barrahori.place(relx = 0.5, rely = 0, relwidth = 1, anchor = "center")
+
+         ## Inicialização barra lateral
+        barralat = CTkFrame(master = app, fg_color=("#B4B4B4", "#2C2C2C"), corner_radius=0, width=sidebar_width)
+        barralat.place(x = initial_x_pos, rely = 0.5, relheight = 1, anchor = "center")
+
+        ## Inicialização Frame central
+        central = CTkFrame(master = app, fg_color=("#808080", "#131313"), corner_radius=0)
+        central.place(rely = 0.575, relx= 0.5, relwidth = 0.8, relheight = 0.8, anchor="center")
+
+        ## Inicialização do Frame de configurações
+        frameconfig = CTkFrame(master = app, fg_color=("#A5A5A5", "#1B1B1B"), corner_radius=0)
+        frameconfig.place(relx = 0.175)
+        frameconfig.place(relx = initial_x_pos,rely = 0.86, anchor="center")
+
         
 
-        ## Inicialização barra lateral
-        barralat = CTkFrame(master = app, fg_color=("#B4B4B4", "#2C2C2C"), corner_radius=0)
-        barralat.place(relx = 0, rely = 0.5, relheight = 1, anchor = "center")
+        def abrir_configs():
+            nonlocal config_aberta
+            if config_aberta:
+                frameconfig.place(relx = initial_x_pos)
+                config_aberta = False
+            else:
+                frameconfig.place(relx = 0.175)
+                config_aberta = True
+
+        def abrir_barralat():
+            nonlocal menu_aberto
+            if menu_aberto:
+                end_x = -sidebar_width
+            else:
+                end_x = 0
+            current_x = barralat.winfo_x()
+            step = 20
+            if menu_aberto:
+                step = -step
+            def animacao():
+                nonlocal menu_aberto, current_x, config_aberta
+                if menu_aberto and current_x > end_x: # Fechando
+                    current_x += step
+                    if current_x < end_x: 
+                        current_x = end_x
+                        barralat.place(x=current_x)
+                        central.place(relx = 0.5)
+                        frameconfig.place(relx = initial_x_pos)
+                        config_aberta = False
+                    app.after(10, animacao) 
+                elif not menu_aberto and current_x < end_x: # Abrindo
+                    current_x += step
+                    if current_x > end_x: 
+                        current_x = end_x
+                        barralat.place(x=current_x)
+                        central.place(relx = 0.55)
+                    app.after(10, animacao) 
+                else:
+                    menu_aberto = not menu_aberto
+            animacao()
         
-        menus = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= menu)
-        menus.place(relx = 0.75, rely = 0.05, relwidth = 0.3,anchor ="center")
+        ##Menu barra horizontal
+        menuh = CTkButton(master = barrahori, text = "", corner_radius = 48, fg_color = ("#A5A5A5", "#1B1B1B"), hover_color=("#C7C7C7", "#474747"), image= menu, command= abrir_barralat)
+        menuh.place(relx = 0.049, rely = 0.75, relwidth = 0.05,anchor ="center")
+
+        ##Menu barra lateral
+        menul = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= menu, command= abrir_barralat)
+        menul.place(relx = 0.75, rely = 0.07, relwidth = 0.3,anchor ="center")
+
+        titulo = CTkLabel(master = barrahori, image= logo, text="")
+        titulo.place(relx = 0.95, rely = 0.75, anchor = "center")
         
         users = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= user, command= mostrar_usuario)
         users.place(relx = 0.75, rely = 0.85, relwidth = 0.3,anchor ="center")
 
-        configs = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= config)
+        configs = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= config, command=abrir_configs)
         configs.place(relx = 0.75, rely = 0.95, relwidth = 0.3,anchor ="center")
         
+        fechar = CTkButton(master = central, text= "Fechar", command = close, corner_radius = 0)
+        fechar.place(relx = 0.5, rely = 0.5, anchor = "center")
+
+        changeTheme = CTkSwitch(master= frameconfig, command = Tema, text="Tema claro",progress_color= "#1299A0")
+        changeTheme.place(relx = 0.4, rely = 0.9, anchor = "center")
+
+        temaimage = CTkLabel(master= frameconfig, text="", image = tema)
+        temaimage.place(relx = 0.75, rely = 0.9, anchor = "center")
+
         app.mainloop()
   
     def cadastro(self):

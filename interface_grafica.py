@@ -35,13 +35,16 @@ class InterfaceGrafica:
         
         def close():
           app.destroy()
-          
+        #Inicialização de uma janela que mostra os dados do usuario e pode edita-los
         def mostrar_usuario():
             open_user = CTkToplevel(app)
             open_user.geometry("500x700")
             open_user.title("Usuário")
             entry_vars = {} 
             entries = {} 
+            
+            erro_label = CTkLabel(master = open_user, text="", text_color="red")
+            erro_label.place(relx = 0.5, rely = 0.65, anchor="center")
             
             valores_originais = {
                 "nome": usuario.nome,
@@ -70,6 +73,12 @@ class InterfaceGrafica:
                 checagem_alterar()
 
             def alterar_dados():
+                if len(entry_vars["cpf"].get()) != 11:
+                    erro_label.configure(text="CPF inválido")
+                    return
+                if len(entry_vars["cep"].get()) != 8:
+                    erro_label.configure(text="CEP inválido")
+                    return
                 if entry_vars["nome"].get() != "" and entry_vars["nome"].get() !=valores_originais["nome"]:
                     Manipulador_User.editar_dados(usuario.nome, "nome", entry_vars["nome"].get())
                     usuario.alterar_nome(entry_vars["nome"].get())
@@ -110,7 +119,7 @@ class InterfaceGrafica:
                 btn_editar = CTkButton(master=open_user, command=lambda e=entry: edicao(e), text="", corner_radius=2, fg_color=("#B4B4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), image = edit)
                 btn_editar.place(relx=0.68, rely=rely_pos, relwidth=0.064, relheight=0.046, anchor="center")
 
-            titulo = CTkLabel(master= open_user, text= "Usuario" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 16, "bold"))
+            titulo = CTkLabel(master= open_user, text= f"Usuario id: {usuario.id_user}" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 16, "bold"))
             titulo.place(relx=0.32, rely=0.1, anchor="center")
 
             label1 = CTkLabel(master= open_user, text= "Nome:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
@@ -127,7 +136,8 @@ class InterfaceGrafica:
 
             label5 = CTkLabel(master= open_user, text= "CEP:" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 12))
             label5.place(relx=0.3, rely=0.55, anchor="center")
-
+            
+            
             cancelar = CTkButton(master = open_user, text= "Cancelar", command = open_user.destroy, corner_radius = 0, fg_color="transparent",hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"))
             cancelar.place(relx = 0.7, rely = 0.75, anchor = "center")
 
@@ -181,10 +191,7 @@ class InterfaceGrafica:
         
         cpassword = CTkEntry(master= cadastro, placeholder_text="Confirmar Senha", show = "*")
         
-
-        
-
-
+        #Função que le e mostra os termos de compromisso
         def termos():
             termo = CTkTextbox(master= cadastro)
             try:
@@ -195,6 +202,8 @@ class InterfaceGrafica:
                 termo.insert("0.0", "Arquivo de termos não encontrado.")
             termo.configure(state="disabled")
             termo.place(relx = 0.5, rely = 0.4, relwidth = 0.6 , relheight= 0.6,anchor ="center")
+            
+            #Função que faz aparecer a tela de criação de usuario apos o usuario aceitar o termo
             def criacao():
                 termo.destroy()
                 mostrar.destroy()
@@ -211,7 +220,8 @@ class InterfaceGrafica:
 
             confirm = CTkButton(master=cadastro, text="Continuar", corner_radius=32,fg_color="transparent")
             confirm.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
-
+            
+            #Função que ve se o usuario aceitou ou não os termos de compromisso
             def aceitar():
                 if mostrar.get() == 1:
                     confirm.configure(fg_color="#17C5CE",hover_color="#1299A0", state ="normal",command= criacao)
@@ -221,21 +231,22 @@ class InterfaceGrafica:
             mostrar = CTkCheckBox(master= cadastro, text="Li e concordo com os termos", corner_radius= 4, fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16, command= aceitar )
             mostrar.place(relx = 0.5, rely = 0.75, relwidth = 0.4, relheight = 0.03, anchor = "center")
 
-            
+        #Seleção de plano premium    
         def premium_select():
             nonlocal select 
             select = True
             normal.destroy()
             premium.destroy()
             termos()
-        
+        #Seleção de plano gratuito
         def normal_select():
             nonlocal select 
             select = False
             normal.destroy()
             premium.destroy()
             termos()
-
+        
+        #Autentificador de dados coletados, previne email e usuarios repetidos
         def autenticar():
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
                 erro_label.configure(text="Você não preencheu todos os campos!!")
@@ -263,7 +274,7 @@ class InterfaceGrafica:
             cadastro.destroy()
 
         
-
+        #Selecionador de Planos
         normal = CTkButton(master = cadastro, text = "Plano padrão \n\n R$00,00\n\n ● Calculo de qual\nsupermercado é\nmais economico\n\n ● Pequenas ofertas", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command = normal_select)
         normal.place(relx = 0.28, rely = 0.5, relwidth = 0.4 , relheight= 0.6,anchor ="center")
 

@@ -38,6 +38,9 @@ class InterfaceGrafica:
         config = CTkImage(Image.open("imagens/config.png"), size = (32,32))
         menu = CTkImage(Image.open("imagens/menu.png"), size = (32,32))
         tema = CTkImage(Image.open("imagens/tema.png"), size = (16,16))
+        fechar = CTkImage(Image.open("imagens/fechar.png"), size = (16,16))
+        sair = CTkImage(Image.open("imagens/logout.png"), size = (16,16))
+        premium = CTkImage(Image.open("imagens/premium.png"), size = (16,16))
         
         ## Instanciando o objeto Usuario
         dados = Manipulador_User.carregar_dados(self.nome)
@@ -50,9 +53,14 @@ class InterfaceGrafica:
           app.destroy()
         #Inicialização de uma janela que mostra os dados do usuario e pode edita-los
         def mostrar_usuario():
-            open_user = CTkToplevel(app)
-            open_user.geometry("500x700")
-            open_user.title("Usuário")
+            app1 = CTkToplevel(app)
+            app1.geometry("500x700")
+            app1.title("Usuário")
+            app1.transient(master=app)
+            app1.wm_attributes("-toolwindow", True)
+
+            open_user = CTkFrame(master = app1, width = 500, height = 700, fg_color=("#DDE7E7", "#2C2C2C"))
+            open_user.place(relx= 0.5, rely = 0.5, anchor = "center")
             entry_vars = {} 
             entries = {} 
             
@@ -108,7 +116,7 @@ class InterfaceGrafica:
                     Manipulador_User.editar_dados(usuario.nome, "cep", entry_vars["cep"].get())
                     usuario.alterar_cep(entry_vars["cep"].get())
 
-                open_user.destroy()
+                app1.destroy()
 
             campos_config = {
                 "nome": (usuario.nome, 0.2),
@@ -163,19 +171,19 @@ class InterfaceGrafica:
         
         
         ##Inicialização da barra horizontal
-        barrahori = CTkFrame(master = app, fg_color=("#A5A5A5", "#1B1B1B"), corner_radius=0)
+        barrahori = CTkFrame(master = app, fg_color=("#DDE7E7", "#1B1B1B"), corner_radius=0)
         barrahori.place(relx = 0.5, rely = 0, relwidth = 1, anchor = "center")
 
          ## Inicialização barra lateral
-        barralat = CTkFrame(master = app, fg_color=("#B4B4B4", "#2C2C2C"), corner_radius=0, width=sidebar_width)
+        barralat = CTkFrame(master = app, fg_color=("#ADB4B4", "#2C2C2C"), corner_radius=0, width=sidebar_width)
         barralat.place(x = initial_x_pos, rely = 0.5, relheight = 1, anchor = "center")
 
         ## Inicialização Frame central
-        central = CTkFrame(master = app, fg_color=("#808080", "#131313"), corner_radius=0)
+        central = CTkFrame(master = app, fg_color=("#EDFBFC", "#131313"), corner_radius=0)
         central.place(rely = 0.575, relx= 0.5, relwidth = 0.8, relheight = 0.8, anchor="center")
 
         ## Inicialização do Frame de configurações
-        frameconfig = CTkFrame(master = app, fg_color=("#A5A5A5", "#1B1B1B"), corner_radius=0)
+        frameconfig = CTkFrame(master = app, fg_color=("#DDE7E7", "#1B1B1B"), corner_radius=0, height = 120)
         frameconfig.place(relx = 0.175)
         frameconfig.place(relx = initial_x_pos,rely = 0.86, anchor="center")
 
@@ -221,7 +229,9 @@ class InterfaceGrafica:
                 else:
                     menu_aberto = not menu_aberto
             animacao()
-        
+        def logout():
+            close()
+            self.login()
         ##Menu barra horizontal
         menuh = CTkButton(master = barrahori, text = "", corner_radius = 48, fg_color = ("#A5A5A5", "#1B1B1B"), hover_color=("#C7C7C7", "#474747"), image= menu, command= abrir_barralat)
         menuh.place(relx = 0.049, rely = 0.75, relwidth = 0.05,anchor ="center")
@@ -238,22 +248,31 @@ class InterfaceGrafica:
 
         configs = CTkButton(master = barralat, text = "", corner_radius = 48, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image= config, command=abrir_configs)
         configs.place(relx = 0.75, rely = 0.95, relwidth = 0.3,anchor ="center")
-        
-        fechar = CTkButton(master = central, text= "Fechar", command = close, corner_radius = 0)
-        fechar.place(relx = 0.5, rely = 0.5, anchor = "center")
+
+        btnpremium = CTkButton(master = frameconfig, text= "Assinar Premium", command = close, corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = premium,text_color=("#808080", "#A0A0A0"))
+        btnpremium.place(relx = 0.5, rely = 0.2, relwidth = 1, anchor = "center")
+
+        btnfechar = CTkButton(master = frameconfig, text= "Fechar", command = close, corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = fechar,text_color=("#808080", "#A0A0A0"))
+        btnfechar.place(relx = 0.5, rely = 0.4, relwidth = 1, anchor = "center")
+
+        btnlogout = CTkButton(master = frameconfig, text= "Logout", command = logout, corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = sair,text_color=("#808080", "#A0A0A0"))
+        btnlogout.place(relx = 0.5, rely = 0.6, relwidth = 1, anchor = "center")
 
         changeTheme = CTkSwitch(master= frameconfig, command = Tema, text="Tema claro",progress_color= "#1299A0")
-        changeTheme.place(relx = 0.4, rely = 0.9, anchor = "center")
+        changeTheme.place(relx = 0.4, rely = 0.85, anchor = "center")
 
         temaimage = CTkLabel(master= frameconfig, text="", image = tema)
-        temaimage.place(relx = 0.75, rely = 0.9, anchor = "center")
+        temaimage.place(relx = 0.75, rely = 0.85, anchor = "center")
 
         app.mainloop()
   
     def cadastro(self):
-        cadastro = CTk()
-        cadastro.geometry("500x700")
-        cadastro.title("Cadastrar")
+        app = CTk()
+        app.geometry("500x700")
+        app.title("Cadastrar")
+
+        cadastro = CTkFrame(master = app, fg_color=("#DDE7E7", "#2C2C2C"),width = 500, height = 700 )
+        cadastro.place(relx = 0.5, rely = 0.5,anchor = "center")
         select : bool
         
 
@@ -354,7 +373,7 @@ class InterfaceGrafica:
             self.nome = user.get()
             self.email = email.get()
             self.senha = password.get()
-            cadastro.destroy()
+            app.destroy()
 
         
         #Selecionador de Planos
@@ -367,14 +386,17 @@ class InterfaceGrafica:
         btn = CTkButton(master=cadastro, text="Criar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command= autenticar)
         
 
-        cadastro.mainloop()
+        app.mainloop()
 
     
     def login(self):
         ## Inicialização da Janela
-        login = CTk()
-        login.geometry("500x400")
-        login.title("Login")
+        app = CTk()
+        app.geometry("500x400")
+        app.title("Login")
+
+        login = CTkFrame(master = app, fg_color=("#DDE7E7", "#2C2C2C"),width = 500, height = 400)
+        login.place(relx = 0.5, rely = 0.5 ,anchor = "center")
         set_appearance_mode("dark")
 
         ## Titulo e texto de login
@@ -422,7 +444,7 @@ class InterfaceGrafica:
                 self.email = usuario["email"]
                 self.senha = usuario["senha"]
                 
-                login.destroy()
+                app.destroy()
                 self.App()
             else:
                 btn.place(relx = 0.5, rely = 0.75, relwidth = 0.2, anchor = "center")
@@ -452,7 +474,7 @@ class InterfaceGrafica:
         changeTheme = CTkSwitch(master= login, command = Tema, text="Tema claro",progress_color= "#1299A0")
         changeTheme.place(relx = 0.2, rely = 0.9, anchor = "center")
 
-        login.mainloop()  
+        app.mainloop()  
 
        
 

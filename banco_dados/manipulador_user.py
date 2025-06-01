@@ -104,3 +104,29 @@ class Manipulador_User(Manipulador):
         except Exception as e:
             print("Erro ao editar usuário:", e)
             return False
+        
+    @staticmethod
+    def conferir_dados(identificador):
+        dados_existentes = []
+
+        caminho = Manipulador_User.caminho_arquivo()
+        if os.path.exists(caminho):
+            with open(caminho, "r") as arquivo:
+                try:
+                    dados_existentes = json.load(arquivo)
+                    if not isinstance(dados_existentes, list):
+                        dados_existentes = []
+                except json.JSONDecodeError:
+                    pass
+
+        for usuario in dados_existentes:
+            if usuario["nome"] == identificador:
+                return 1  # Nome já existe
+            elif usuario["email"] == identificador:
+                return 2 # Email já existe
+            elif usuario["cpf"] == identificador:
+                return 3 # Email já existe
+            elif usuario["id"] == identificador:
+                return 4 # Email já existe
+        
+        return 0 # Funcionou

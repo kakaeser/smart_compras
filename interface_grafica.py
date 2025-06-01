@@ -97,21 +97,36 @@ class InterfaceGrafica:
                 if len(entry_vars["cpf"].get()) != 11:
                     erro_label.configure(text="CPF inválido")
                     return
-                if len(entry_vars["cep"].get()) != 8:
+                if len(entry_vars["cep"].get()) != 8 and len(entry_vars["cep"].get()) != 9:
                     erro_label.configure(text="CEP inválido")
                     return
                 if entry_vars["nome"].get() != "" and entry_vars["nome"].get() !=valores_originais["nome"]:
-                    Manipulador_User.editar_dados(usuario.nome, "nome", entry_vars["nome"].get())
-                    usuario.alterar_nome(entry_vars["nome"].get())
+                    verificador = Manipulador_User.conferir_dados(entry_vars["nome"].get())
+                    if verificador == 1:
+                        erro_label.configure(text="Nome de usuario já cadastrado")
+                        return
+                    else:
+                        Manipulador_User.editar_dados(usuario.nome, "nome", entry_vars["nome"].get())
+                        usuario.alterar_nome(entry_vars["nome"].get())
                 if entry_vars["email"].get() != "" and entry_vars["email"].get() !=valores_originais["email"]:
-                    Manipulador_User.editar_dados(usuario.nome, "email", entry_vars["email"].get())
-                    usuario.alterar_email(entry_vars["email"].get())
+                    verificador = Manipulador_User.conferir_dados(entry_vars["email"].get())
+                    if verificador == 2:
+                        erro_label.configure(text="Email já cadastrado")
+                        return
+                    else:
+                        Manipulador_User.editar_dados(usuario.nome, "email", entry_vars["email"].get())
+                        usuario.alterar_email(entry_vars["email"].get())
                 if entry_vars["senha"].get() != "" and entry_vars["senha"].get() !=valores_originais["senha"]:
                     Manipulador_User.editar_dados(usuario.nome, "senha", entry_vars["senha"].get())
                     usuario.alterar_senha(entry_vars["senha"].get())
                 if entry_vars["cpf"].get() != "" and entry_vars["cpf"].get() !=valores_originais["cpf"]:
-                    Manipulador_User.editar_dados(usuario.nome, "cpf", entry_vars["cpf"].get())
-                    usuario.alterar_cpf(entry_vars["cpf"].get())
+                    verificador = Manipulador_User.conferir_dados(entry_vars["cpf"].get())
+                    if verificador == 3:
+                        erro_label.configure(text="CPF já cadastrado")
+                        return
+                    else:
+                        Manipulador_User.editar_dados(usuario.nome, "cpf", entry_vars["cpf"].get())
+                        usuario.alterar_cpf(entry_vars["cpf"].get())
                 if entry_vars["cep"].get() != "" and entry_vars["cep"].get() !=valores_originais["cep"]:
                     Manipulador_User.editar_dados(usuario.nome, "cep", entry_vars["cep"].get())
                     usuario.alterar_cep(entry_vars["cep"].get())

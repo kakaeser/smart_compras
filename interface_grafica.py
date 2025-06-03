@@ -6,14 +6,14 @@ from PIL import Image
 
 class InterfaceGrafica:
     
-    def __init__(self):
+    def __init__(self) -> None:
         self.senha = ""
         self.nome = ""
         self.email = ""
         
         
 
-    def App(self):
+    def App(self) -> None:
         ## Inicialização do app
         app = CTk()
         app.geometry("1280x720")
@@ -25,7 +25,7 @@ class InterfaceGrafica:
         menu_aberto = False
         config_aberta = False
 
-        def Tema():
+        def Tema() -> None:
             if changeTheme.get() == 1:
                 set_appearance_mode("light")
             else:
@@ -49,15 +49,16 @@ class InterfaceGrafica:
         elif len(dados["id"]) == 8:
             usuario = UsuarioPremium(dados["nome"] ,dados["email"], dados["senha"], dados["cpf"], dados["cep"] ,dados["id"])
         
-        def close():
+        def close() -> None:
           app.destroy()
         #Inicialização de uma janela que mostra os dados do usuario e pode edita-los
-        def mostrar_usuario():
+        def mostrar_usuario() -> None:
             app1 = CTkToplevel(app)
             app1.geometry("500x700")
             app1.title("Usuário")
             app1.transient(master=app)
-            app1.wm_attributes("-toolwindow", True)
+            ##Apenas para PC
+            #app1.wm_attributes("-toolwindow", True)
 
             open_user = CTkFrame(master = app1, width = 500, height = 700, fg_color=("#DDE7E7", "#2C2C2C"))
             open_user.place(relx= 0.5, rely = 0.5, anchor = "center")
@@ -75,7 +76,7 @@ class InterfaceGrafica:
                 "cep": usuario.cep
             }
 
-            def checagem_alterar():
+            def checagem_alterar() -> None:
                 
                 mudanca = False
                 for key in valores_originais:
@@ -89,11 +90,11 @@ class InterfaceGrafica:
                 else:
                     alterar.configure(fg_color="transparent", state="disabled")
 
-            def edicao(campo_widget): 
+            def edicao(campo_widget) -> None: 
                 campo_widget.configure(state="normal", text_color=("#000000", "#FFFFFF")) 
                 checagem_alterar()
 
-            def alterar_dados():
+            def alterar_dados() -> None:
                 if len(entry_vars["cpf"].get()) != 11:
                     erro_label.configure(text="CPF inválido")
                     return
@@ -174,7 +175,7 @@ class InterfaceGrafica:
             label5.place(relx=0.3, rely=0.55, anchor="center")
             
             
-            cancelar = CTkButton(master = open_user, text= "Cancelar", command = open_user.destroy, corner_radius = 0, fg_color="transparent",hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"))
+            cancelar = CTkButton(master = open_user, text= "Cancelar", command = app1.destroy, corner_radius = 0, fg_color="transparent",hover_color=("#B4B4B4", "#2C2C2C"), text_color=("#000000", "#FFFFFF"))
             cancelar.place(relx = 0.7, rely = 0.75, anchor = "center")
 
             alterar = CTkButton(master = open_user, text= "Alterar", corner_radius = 0, command = alterar_dados)
@@ -204,7 +205,7 @@ class InterfaceGrafica:
 
         
 
-        def abrir_configs():
+        def abrir_configs() -> None:
             nonlocal config_aberta
             if config_aberta:
                 frameconfig.place(relx = initial_x_pos)
@@ -213,7 +214,7 @@ class InterfaceGrafica:
                 frameconfig.place(relx = 0.175)
                 config_aberta = True
 
-        def abrir_barralat():
+        def abrir_barralat() -> None:
             nonlocal menu_aberto
             if menu_aberto:
                 end_x = -sidebar_width
@@ -223,7 +224,7 @@ class InterfaceGrafica:
             step = 20
             if menu_aberto:
                 step = -step
-            def animacao():
+            def animacao() -> None:
                 nonlocal menu_aberto, current_x, config_aberta
                 if menu_aberto and current_x > end_x: # Fechando
                     current_x += step
@@ -244,9 +245,10 @@ class InterfaceGrafica:
                 else:
                     menu_aberto = not menu_aberto
             animacao()
-        def logout():
+        def logout() -> None:
             close()
             self.login()
+            
         ##Menu barra horizontal
         menuh = CTkButton(master = barrahori, text = "", corner_radius = 48, fg_color = ("#A5A5A5", "#1B1B1B"), hover_color=("#C7C7C7", "#474747"), image= menu, command= abrir_barralat)
         menuh.place(relx = 0.049, rely = 0.75, relwidth = 0.05,anchor ="center")
@@ -281,7 +283,7 @@ class InterfaceGrafica:
 
         app.mainloop()
   
-    def cadastro(self):
+    def cadastro(self) -> None:
         app = CTk()
         app.geometry("500x700")
         app.title("Cadastrar")
@@ -309,7 +311,7 @@ class InterfaceGrafica:
         cpassword = CTkEntry(master= cadastro, placeholder_text="Confirmar Senha", show = "*")
         
         #Função que le e mostra os termos de compromisso
-        def termos():
+        def termos() -> None:
             termo = CTkTextbox(master= cadastro)
             try:
                 with open("banco_dados/termos.txt", "r", encoding="utf-8") as arquivo:
@@ -321,7 +323,7 @@ class InterfaceGrafica:
             termo.place(relx = 0.5, rely = 0.4, relwidth = 0.6 , relheight= 0.6,anchor ="center")
             
             #Função que faz aparecer a tela de criação de usuario apos o usuario aceitar o termo
-            def criacao():
+            def criacao() -> None:
                 termo.destroy()
                 mostrar.destroy()
                 confirm.destroy()
@@ -339,7 +341,7 @@ class InterfaceGrafica:
             confirm.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
             
             #Função que ve se o usuario aceitou ou não os termos de compromisso
-            def aceitar():
+            def aceitar() -> None:
                 if mostrar.get() == 1:
                     confirm.configure(fg_color="#17C5CE",hover_color="#1299A0", state ="normal",command= criacao)
                 else:
@@ -349,14 +351,14 @@ class InterfaceGrafica:
             mostrar.place(relx = 0.5, rely = 0.75, relwidth = 0.4, relheight = 0.03, anchor = "center")
 
         #Seleção de plano premium    
-        def premium_select():
+        def premium_select() -> None:
             nonlocal select 
             select = True
             normal.destroy()
             premium.destroy()
             termos()
         #Seleção de plano gratuito
-        def normal_select():
+        def normal_select() -> None:
             nonlocal select 
             select = False
             normal.destroy()
@@ -364,7 +366,7 @@ class InterfaceGrafica:
             termos()
         
         #Autentificador de dados coletados, previne email e usuarios repetidos
-        def autenticar():
+        def autenticar() -> None:
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
                 erro_label.configure(text="Você não preencheu todos os campos!!")
                 return
@@ -404,7 +406,7 @@ class InterfaceGrafica:
         app.mainloop()
 
     
-    def login(self):
+    def login(self) -> None:
         ## Inicialização da Janela
         app = CTk()
         app.geometry("500x400")
@@ -436,20 +438,20 @@ class InterfaceGrafica:
         erro_label.place(relx=0.5, rely=0.68, anchor="center")
 
         ## Função que determina se a senha pode ser vista ou não a partir do botão
-        def mostraSenha():
+        def mostraSenha() -> None:
             if mostrar.get()== 1:
                 password.configure(show = "")
             else:
                 password.configure(show = "*")
         ## Função que determina se o tema é claro ou escuro de acordo com o switch
-        def Tema():
+        def Tema() -> None:
             if changeTheme.get() == 1:
                 set_appearance_mode("light")
             else:
                 set_appearance_mode("dark")
 
         #Função de validação de usuario e senha
-        def validar_userps():
+        def validar_userps() -> None:
             nome_email = user.get()
             senha = password.get()
             usuario = Manipulador_User.carregar_dados(nome_email)

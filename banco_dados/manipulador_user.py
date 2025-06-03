@@ -2,16 +2,17 @@ from banco_dados.manipulador import Manipulador
 import json
 import os
 import random
+from typing import Optional, Dict, Any
 
 
 class Manipulador_User(Manipulador):
 
-    def caminho_arquivo():
+    def caminho_arquivo() -> str:
         pasta_base = os.path.dirname(__file__)
         return os.path.join(pasta_base, "..", "banco_dados", "usuarios.json")
     
 
-    def gerar_id_aleatorio_unico():
+    def gerar_id_aleatorio_unico() -> str:
       try:
           with open("usuarios.json", "r") as f:
               dados = json.load(f)
@@ -25,7 +26,7 @@ class Manipulador_User(Manipulador):
               return f"USR{novo_id}"
 
     @staticmethod
-    def salvar_dados(nome, email, senha, cpf, cep, select):
+    def salvar_dados(nome:str, email:str, senha:str, cpf:str, cep:str, select:bool) -> bool:
         if select == True:
             id1 = Manipulador_User.gerar_id_aleatorio_unico() + "P"
         else:
@@ -63,7 +64,7 @@ class Manipulador_User(Manipulador):
         return True  # Sucesso
 
     @staticmethod
-    def carregar_dados(identificador):
+    def carregar_dados(identificador) -> Optional[Dict[str, Any]]:
         caminho = Manipulador_User.caminho_arquivo()
         if os.path.exists(caminho):
             with open(caminho, "r") as arquivo:
@@ -78,7 +79,7 @@ class Manipulador_User(Manipulador):
         return None
         
     @staticmethod  
-    def editar_dados(identificador, campo, novo_valor):
+    def editar_dados(identificador:str, campo:str, novo_valor: Any) -> bool:
         caminho = Manipulador_User.caminho_arquivo()
         try:
             with open(caminho, "r", encoding="utf-8") as f:
@@ -106,7 +107,7 @@ class Manipulador_User(Manipulador):
             return False
         
     @staticmethod
-    def conferir_dados(identificador):
+    def conferir_dados(identificador) -> int:
         dados_existentes = []
 
         caminho = Manipulador_User.caminho_arquivo()

@@ -58,9 +58,17 @@
     {
         "nome": "8h8by8b8b",
         "email": "vuv86v86@f67f",
-        "senha": "asdfghjklç",
+        "senha": "asdfghjkl\u00e7",
         "cpf": "34235767556",
         "cep": "67534568",
         "id": "USR5417"
+    },
+    {
+        "nome": "sbbjbr",
+        "email": "lucasrocha.20166@gmail.com",
+        "senha": "1234gg",
+        "cpf": "12345678900",
+        "cep": "33239076",
+        "id": "USR5391P"
     }
 ]

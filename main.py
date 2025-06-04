@@ -1,9 +1,8 @@
-from interface_grafica import InterfaceGrafica
+from interface_grafica.interface import Interface
 
 def main():
-  inter = InterfaceGrafica()
+  inter = Interface()
   inter.login()
-  
   
 if __name__ == "__main__":
   main()

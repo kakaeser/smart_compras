@@ -8,17 +8,17 @@ class Usuario:
     self.cep = cep
     self.id_user = id_user
   
-  def alterar_nome(self, n_nome):
+  def alterar_nome(self, n_nome) -> None:
     self.nome = n_nome
     
-  def alterar_email(self, n_email):
+  def alterar_email(self, n_email) -> None:
     self.email = n_email
     
-  def alterar_senha(self, n_senha):
+  def alterar_senha(self, n_senha) -> None:
     self.senha = n_senha
     
-  def alterar_cpf(self, n_cpf):
+  def alterar_cpf(self, n_cpf) -> None:
     self.cpf = n_cpf
 
-  def alterar_cep(self, n_cep):
+  def alterar_cep(self, n_cep) -> None:
     self.cep = n_cep

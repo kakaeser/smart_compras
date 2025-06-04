@@ -8,12 +8,12 @@ class Manipulador(ABC):
         pass
     
     @abstractmethod
-    def salvar_dados(nome:str, email:str, senha:str, cpf:str, cep:str, select:bool) -> bool:
+    def salvar_dados() -> bool:
         pass
 
     @abstractmethod
-    def carregar_dados(identificador:str) -> Optional[Dict[str, Any]]:
+    def carregar_dados() -> Optional[Dict[str, Any]]:
         pass
     @abstractmethod
-    def editar_dados(identificador:str, campo:str, novo_valor: Any) -> bool:
+    def editar_dados() -> bool:
         pass

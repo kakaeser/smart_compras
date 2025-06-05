@@ -80,6 +80,7 @@ class App:
             usuario = UsuarioPremium(dados["nome"] ,dados["email"], dados["senha"], dados["cpf"], dados["cep"] ,dados["id"])
         
         def close() -> None:
+            self.fechar_cards()
             app.destroy()
     
         ##Inicialização da barra horizontal
@@ -189,14 +190,15 @@ class App:
 
         erro_imagem = CTkLabel(master = central, text="", image=busca_fail)
         erro_imagem.place(relx= 0.5, rely=0.5, anchor= "center")
-        erro_label = CTkLabel(master = central, text = "Ainda não temos uma lista ou busca, crie uma lista para aparecer os supermercados!", text_color=("#979797", "#3F3F3F"),font=("Arial", 16, "bold"))
+        erro_label = CTkLabel(master = central, text = "Ainda não temos uma lista ou busca, crie uma lista para aparecer os supermercados!", text_color=("#979797", "#3F3F3F"),font=("Montserrat", 16, "bold"))
         erro_label.place(relx= 0.5, rely=0.65, anchor="center")
 
-        """for i in range(50):
-            card = CTkFrame(master=scroll, fg_color=("#DDE7E7", "#1B1B1B"), corner_radius=8)
-            card.pack(pady=6, padx=20, fill = "x")
-            self.mec_scroll(scroll,card) """
-           
+        def cards():
+            self.fechar_cards()
+            erro_label.configure(text="")
+            erro_imagem.configure(image="")
+            self.abrir_cards(scroll)
+            
             
         
         barra_pesquisa = CTkEntry(master= central, placeholder_text="Pesquise: Ex: Frango, Coca-Cola, Sabão", text_color=("#808080", "#A0A0A0"), corner_radius=2, fg_color = "transparent")
@@ -205,7 +207,7 @@ class App:
         lista = CTkButton(master= central, image= nova_lista, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"))
         lista.place(relx= 0.024, rely=0.028, relwidth = 0.05,relheight = 0.055, anchor="center")
         
-        buscar = CTkButton(master= central, image=busca, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"))
+        buscar = CTkButton(master= central, image=busca, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command = cards)
         buscar.place(relx= 0.975, rely=0.028, relwidth = 0.05,relheight = 0.055, anchor="center")
         
         

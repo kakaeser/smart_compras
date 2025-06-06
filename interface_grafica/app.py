@@ -188,15 +188,15 @@ class App:
         scroll = CTkScrollableFrame(master=central, fg_color="transparent", corner_radius=0)
         scroll.place(relx=0.5, rely=0.52,relwidth=1, relheight = 0.9, anchor="center")
 
-        erro_imagem = CTkLabel(master = central, text="", image=busca_fail)
+        erro_imagem = CTkLabel(master = central, text="", image= busca_fail)
         erro_imagem.place(relx= 0.5, rely=0.5, anchor= "center")
         erro_label = CTkLabel(master = central, text = "Ainda não temos uma lista ou busca, crie uma lista para aparecer os supermercados!", text_color=("#979797", "#3F3F3F"),font=("Montserrat", 16, "bold"))
         erro_label.place(relx= 0.5, rely=0.65, anchor="center")
 
         def cards():
-            self.fechar_cards()
+            
             erro_label.configure(text="")
-            erro_imagem.configure(image="")
+            erro_imagem.place_forget()
             self.abrir_cards(scroll)
             
             

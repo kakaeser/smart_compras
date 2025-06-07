@@ -1,23 +1,19 @@
-class Usuario:
-  def __init__ (self, nome:str, email:str, senha:str, cpf:str, cep:str, id_user:str):
-    self.nome= nome
-    self.email= email
-    self.senha = senha
-    self.cpf= cpf
-    self.cep = cep
-    self.id_user = id_user
-  
-  def alterar_nome(self, n_nome) -> None:
-    self.nome = n_nome
-    
-  def alterar_email(self, n_email) -> None:
-    self.email = n_email
-    
-  def alterar_senha(self, n_senha) -> None:
-    self.senha = n_senha
-    
-  def alterar_cpf(self, n_cpf) -> None:
-    self.cpf = n_cpf
+from classes.usuario import Usuario
+import math
 
-  def alterar_cep(self, n_cep) -> None:
-    self.cep = n_cep
+class UsuarioPremium(Usuario):
+  def __init__ (self, nome, email, senha, cpf, cep, id_user):
+    super().__init__(nome, email, senha, cpf, cep, id_user)
+
+  def calcular_novo_id(self, novo):
+    new_id = "USR" + novo + "P"
+    return new_id
+  
+  def alterar_id(self, idn):
+    self.id_user = idn
+
+  
+  def calcular_distancia(self, d1, d2):
+    soma2= d1**2 + d2**2
+    distancia = math.sqrt(soma2)
+    return distancia

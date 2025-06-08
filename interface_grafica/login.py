@@ -1,7 +1,7 @@
 from customtkinter import *
 from banco_dados.manipulador_user import Manipulador_User
-from classes.usuario import Usuario
-from classes.usuariopremium import UsuarioPremium
+from classes.usuario_classes.usuario import Usuario
+from classes.usuario_classes.usuariopremium import UsuarioPremium
 from PIL import Image
 
 

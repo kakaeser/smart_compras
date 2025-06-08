@@ -1,7 +1,7 @@
 from customtkinter import *
 from banco_dados.manipulador_user import Manipulador_User
-from classes.usuario import Usuario
-from classes.usuariopremium import UsuarioPremium
+from classes.usuario_classes.usuario import Usuario
+from classes.usuario_classes.usuariopremium import UsuarioPremium
 from PIL import Image
 import platform
 so = platform.system()
@@ -35,10 +35,16 @@ class App:
             ))
          ## Coisa que faz o scroll funcionar nos frames criados
         if so == "Windows":
-                card.bind("<MouseWheel>",scroll_windows)
+            card.bind("<MouseWheel>",scroll_windows)
         else:
             card.bind("<Button-4>", scroll_linux) 
             card.bind("<Button-5>", scroll_linux)
+
+        if so == "Windows":
+            card.adicional.bind("<MouseWheel>",scroll_windows)
+        else:
+            card.adicional.bind("<Button-4>", scroll_linux) 
+            card.adicional.bind("<Button-5>", scroll_linux)
 
 
     def App(self) -> None:
@@ -166,7 +172,11 @@ class App:
         configs.place(relx = 0.75, rely = 0.95, relwidth = 0.3,anchor ="center")
 
         ##Widgets do frameconfig
-        btnpremium = CTkButton(master = frameconfig, text= "Assinar Premium", command = close, corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = premium,text_color=("#808080", "#A0A0A0"))
+        btnpremium = CTkButton(master = frameconfig, text= "", corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = premium,text_color=("#808080", "#A0A0A0"), command=lambda: self.assinar_premium(app, usuario))
+        if len(usuario.id_user) == 8:
+            btnpremium.configure(text = "Cancelar Premium")
+        else:
+            btnpremium.configure(text = "Assinar Premium")
         btnpremium.place(relx = 0.5, rely = 0.2, relwidth = 1, anchor = "center")
 
         btnfechar = CTkButton(master = frameconfig, text= "Fechar", command = close, corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = fechar,text_color=("#808080", "#A0A0A0"))
@@ -197,9 +207,7 @@ class App:
             
             erro_label.configure(text="")
             erro_imagem.place_forget()
-            self.abrir_cards(scroll)
-            
-            
+            self.abrir_cards(scroll, usuario)
         
         barra_pesquisa = CTkEntry(master= central, placeholder_text="Pesquise: Ex: Frango, Coca-Cola, Sabão", text_color=("#808080", "#A0A0A0"), corner_radius=2, fg_color = "transparent")
         barra_pesquisa.place(relx =0.5, rely=0.028,relwidth = 0.9,relheight = 0.055,anchor="center")

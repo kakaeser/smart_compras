@@ -1,10 +1,26 @@
 from customtkinter import *
 from banco_dados.manipulador_user import Manipulador_User
-from classes.usuario import Usuario
-from classes.usuariopremium import UsuarioPremium
+
 
 
 class Cadastro:
+     
+     def forma_pagamento(self, app, comando)-> None:
+         def aplicar_comando():
+            credito.destroy()
+            debito.destroy()
+            pix.destroy()
+            comando()
+            
+         credito = CTkButton(master= app, text= "Crédito", command= aplicar_comando, corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0")
+         credito.place(relx = 0.5, rely = 0.4, anchor="center")
+
+         debito = CTkButton(master= app, text= "Debito", command= aplicar_comando, corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0")
+         debito.place(relx = 0.5, rely = 0.5, anchor="center")
+
+         pix = CTkButton(master= app, text= "PIX", command= aplicar_comando, corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0")
+         pix.place(relx = 0.5, rely = 0.6, anchor="center")
+     
      def cadastro(self) -> None:
         app = CTk()
         app.geometry("500x700")
@@ -78,7 +94,7 @@ class Cadastro:
             select = True
             normal.destroy()
             premium.destroy()
-            termos()
+            self.forma_pagamento(app, termos)
         #Seleção de plano gratuito
         def normal_select() -> None:
             nonlocal select 
@@ -119,10 +135,52 @@ class Cadastro:
         normal = CTkButton(master = cadastro, text = "Plano padrão \n\n R$00,00\n\n ● Calculo de qual\nsupermercado é\nmais economico\n\n ● Pequenas ofertas", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command = normal_select)
         normal.place(relx = 0.28, rely = 0.5, relwidth = 0.4 , relheight= 0.6,anchor ="center")
 
-        premium = CTkButton(master = cadastro, text = "Plano Premium \n\n R$12,90\n\n ● Ofertas maiores \n\n ● Calcula o gasto de \ncombustivel\n\n ● Visualização de\nchegada de produtos", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command= premium_select)
+        premium = CTkButton(master = cadastro,text = "Plano Premium \n\n R$12,90\n\n ● Ofertas maiores \n\n ● Calcula o gasto de \ncombustivel\n\n ● Visualização de\nchegada de produtos", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command= premium_select)
         premium.place(relx = 0.72, rely = 0.5, relwidth = 0.4 , relheight= 0.6,anchor ="center")
 
         btn = CTkButton(master=cadastro, text="Criar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command= autenticar)
         
-
         app.mainloop()
+
+
+     def assinar_premium (self, app, usuario)-> None:
+        app1 = CTkToplevel(app)
+        app1.geometry("500x700")
+        app1.title("Plano Premium")
+        app1.transient(master=app)
+
+        def edicaop_id():
+                Manipulador_User.editar_dados(usuario.nome, "id", usuario.id_user + "P")
+                app1.destroy()
+                app.destroy()
+                self.App
+
+        def edicaon_id():
+                novo_id = usuario.id_user[:-1]
+                Manipulador_User.editar_dados(usuario.nome, "id", novo_id)
+                app1.destroy()
+                app.destroy()
+                self.App()
+
+        def assinar():
+            premium.destroy()
+            self.forma_pagamento(app1,edicaop_id)
+
+        if len(usuario.id_user) == 7:
+            premium = CTkButton(master = app1 ,text = "Plano Premium \n\n R$12,90\n\n ● Ofertas maiores \n\n ● Calcula o gasto de \ncombustivel\n\n ● Visualização de\nchegada de produtos", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command = assinar)
+            premium.place(relx = 0.5, rely = 0.5, relwidth = 0.8 , relheight= 0.6,anchor ="center")
+        else:
+            texto = CTkLabel(master = app1, text= "Tem certeza que quer cancelar seu plano premium?")
+            texto.place(relx = 0.5, rely = 0.5, anchor ="center")
+
+            confirmar = CTkButton(master= app1, text="Sim", command = edicaon_id, fg_color="#17C5CE",hover_color="#1299A0")
+            confirmar.place(relx=0.3, rely = 0.6, anchor="center")
+
+            cancelar = CTkButton(master = app1, text = "Cancelar",fg_color="transparent",hover_color=("#ADB4B4", "#1B1B1B"), text_color=("#000000", "#FFFFFF"))
+            cancelar.place(relx = 0.6, rely = 0.6, anchor = "center")
+
+        app1.mainloop()
+
+
+    
+            

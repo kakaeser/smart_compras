@@ -1,7 +1,4 @@
 from customtkinter import *
-from banco_dados.manipulador_user import Manipulador_User
-from classes.usuario import Usuario
-from classes.usuariopremium import UsuarioPremium
 from PIL import Image
 
 class Cards:
@@ -37,12 +34,12 @@ class Cards:
 
         card.master.update_idletasks()
         
-    def abrir_cards(self, scroll) -> None:
+    def abrir_cards(self, scroll, usuario) -> None:
         self.fechar_cards()
         not_selected = CTkImage(Image.open("imagens/not_selected1.png"), size = (32,32))
         lista = CTkImage(Image.open("imagens/lista.png"), size = (16,16))
         market = CTkImage(Image.open("imagens/market.png"), size = (192,144))
-        numero = 5
+        numero = 10
         
         for i in range(20):
             card_height_comprimido = 160
@@ -61,11 +58,15 @@ class Cards:
             nome_mercado= CTkLabel(master= card, text = f"Supermercado {i+1} - R${i+15},00", font=("Montserrat", 28, "bold"))
             nome_mercado.place(relx = 0.45, y = 30, anchor="center")
 
+            if len(usuario.id_user) == 8:
+                distancia = CTkLabel(master= card, text = f"Distância = {usuario.calcular_distancia(i*100,0)}m", font=("Montserrat", 22))
+                distancia.place(relx = 0.35, y = 60, anchor="center")
+
             card.adicional = CTkFrame(master=card, fg_color="transparent")
             
             CTkLabel(master=card.adicional, text=" Lista de produtos:", image = lista, font=("Montserrat", 16, "bold"), compound ="left").pack(pady=2, anchor="w")
             for i in range(numero):
-                CTkLabel(master=card.adicional, text=f"Produtos {i}: R${i+15},00", font=("Montserrat", 16), wraplength=250).pack(pady=2, anchor="w")
+                CTkLabel(master=card.adicional, text=f"Produtos {i+1}: R${i+15},00", font=("Montserrat", 16), wraplength=250).pack(pady=2, anchor="w")
                                                                                                                                               
             card.adicional.place_forget()
 

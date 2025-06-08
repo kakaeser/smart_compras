@@ -115,6 +115,10 @@ class Cadastro:
             if len(cep.get()) != 8:
                 erro_label.configure(text="CEP inválido")
                 return
+            
+            if len(password.get()) < 8:
+                erro_label.configure(text="Sua senha é muito fraca, coloque pelo menos 8 caracteres")
+                return
 
             if cpassword.get() != password.get():
                 erro_label.configure(text="Sua senha não é a mesma que você quis confirmar")
@@ -153,6 +157,7 @@ class Cadastro:
                 Manipulador_User.editar_dados(usuario.nome, "id", usuario.id_user + "P")
                 app1.destroy()
                 app.destroy()
+                self.fechar_cards()
                 self.App
 
         def edicaon_id():
@@ -160,6 +165,7 @@ class Cadastro:
                 Manipulador_User.editar_dados(usuario.nome, "id", novo_id)
                 app1.destroy()
                 app.destroy()
+                self.fechar_cards()
                 self.App()
 
         def assinar():
@@ -174,10 +180,10 @@ class Cadastro:
             texto.place(relx = 0.5, rely = 0.5, anchor ="center")
 
             confirmar = CTkButton(master= app1, text="Sim", command = edicaon_id, fg_color="#17C5CE",hover_color="#1299A0")
-            confirmar.place(relx=0.3, rely = 0.6, anchor="center")
+            confirmar.place(relx=0.35, rely = 0.6, anchor="center")
 
             cancelar = CTkButton(master = app1, text = "Cancelar",fg_color="transparent",hover_color=("#ADB4B4", "#1B1B1B"), text_color=("#000000", "#FFFFFF"))
-            cancelar.place(relx = 0.6, rely = 0.6, anchor = "center")
+            cancelar.place(relx = 0.65, rely = 0.6, anchor = "center")
 
         app1.mainloop()
 

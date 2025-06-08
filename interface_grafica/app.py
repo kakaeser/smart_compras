@@ -212,7 +212,7 @@ class App:
         barra_pesquisa = CTkEntry(master= central, placeholder_text="Pesquise: Ex: Frango, Coca-Cola, Sabão", text_color=("#808080", "#A0A0A0"), corner_radius=2, fg_color = "transparent")
         barra_pesquisa.place(relx =0.5, rely=0.028,relwidth = 0.9,relheight = 0.055,anchor="center")
         
-        lista = CTkButton(master= central, image= nova_lista, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"))
+        lista = CTkButton(master= central, image= nova_lista, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command = lambda: self.abrir_lista(app, "Marca"))
         lista.place(relx= 0.024, rely=0.028, relwidth = 0.05,relheight = 0.055, anchor="center")
         
         buscar = CTkButton(master= central, image=busca, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command = cards)

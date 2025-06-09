@@ -56,11 +56,11 @@ class Cards:
             imagem.place(relx = 0.14, y = 50, anchor="center")
             
             nome_mercado= CTkLabel(master= card, text = f"Supermercado {i+1} - R${i+15},00", font=("Montserrat", 28, "bold"))
-            nome_mercado.place(relx = 0.45, y = 30, anchor="center")
+            nome_mercado.place(relx = 0.475, y = 30, anchor="center")
 
             if len(usuario.id_user) == 8:
                 distancia = CTkLabel(master= card, text = f"Distância = {usuario.calcular_distancia(i*100,0)}m", font=("Montserrat", 22))
-                distancia.place(relx = 0.35, y = 60, anchor="center")
+                distancia.place(relx = 0.375, y = 60, anchor="center")
 
             card.adicional = CTkFrame(master=card, fg_color="transparent")
             

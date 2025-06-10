@@ -155,17 +155,17 @@ class Cadastro:
 
         def edicaop_id():
                 Manipulador_User.editar_dados(usuario.nome, "id", usuario.id_user + "P")
+                self.fechar_cards()
                 app1.destroy()
                 app.destroy()
-                self.fechar_cards()
-                self.App
+                self.App()
 
         def edicaon_id():
                 novo_id = usuario.id_user[:-1]
                 Manipulador_User.editar_dados(usuario.nome, "id", novo_id)
+                self.fechar_cards()
                 app1.destroy()
                 app.destroy()
-                self.fechar_cards()
                 self.App()
 
         def assinar():
@@ -182,7 +182,7 @@ class Cadastro:
             confirmar = CTkButton(master= app1, text="Sim", command = edicaon_id, fg_color="#17C5CE",hover_color="#1299A0")
             confirmar.place(relx=0.35, rely = 0.6, anchor="center")
 
-            cancelar = CTkButton(master = app1, text = "Cancelar",fg_color="transparent",hover_color=("#ADB4B4", "#1B1B1B"), text_color=("#000000", "#FFFFFF"))
+            cancelar = CTkButton(master = app1, text = "Cancelar",fg_color="transparent",hover_color=("#ADB4B4", "#1B1B1B"), text_color=("#000000", "#FFFFFF"), command= app1.destroy)
             cancelar.place(relx = 0.65, rely = 0.6, anchor = "center")
 
         app1.mainloop()

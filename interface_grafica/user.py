@@ -10,8 +10,8 @@ class User():
     app1.title("Usuário")
     app1.transient(master=app)
 
-    edit = CTkImage(Image.open("imagens/editar.png"), size = (16,16))
-    verificar = CTkImage(Image.open("imagens/verificar.png"), size = (16,16))
+    edit = CTkImage(Image.open("imagens/icones/editar.png"), size = (16,16))
+    verificar = CTkImage(Image.open("imagens/icones/verificar.png"), size = (16,16))
 
     ##Apenas para Windows
     if os =="Windows":

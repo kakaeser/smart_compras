@@ -9,5 +9,6 @@ class Interface(Login, App, Cadastro, User, Cards, Lista):
     def __init__(self):
         Login.__init__(self,"", "","")
         Cards.__init__(self)
+        Lista.__init__(self)
 
 

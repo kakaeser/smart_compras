@@ -9,10 +9,10 @@ so = platform.system()
 class App:
   ##Mecanica do scroll do mouse
     
-    def mec_scroll(self,scroll,card) -> None:
+    def mec_scroll(self,scroll,card,multiplicador) -> None:
 
         def scroll_windows(event) -> None:
-            scroll._parent_canvas.yview_scroll(-int(event.delta/4), "units")
+            scroll._parent_canvas.yview_scroll(-int(event.delta/(4*multiplicador)), "units")
             
         def scroll_linux(event)-> None:
             if event.num == 4:
@@ -66,17 +66,17 @@ class App:
                 set_appearance_mode("dark")
 
         #iniciação das imagens
-        logo = CTkImage(Image.open("imagens/logo.png"), size =(128,128))
-        user = CTkImage(Image.open("imagens/usuario.png"), size = (32,32))
-        config = CTkImage(Image.open("imagens/config.png"), size = (32,32))
-        menu = CTkImage(Image.open("imagens/menu.png"), size = (32,32))
-        tema = CTkImage(Image.open("imagens/tema.png"), size = (16,16))
-        fechar = CTkImage(Image.open("imagens/fechar.png"), size = (16,16))
-        sair = CTkImage(Image.open("imagens/logout.png"), size = (16,16))
-        premium = CTkImage(Image.open("imagens/premium.png"), size = (16,16))
-        busca = CTkImage(Image.open("imagens/busca.png"), size = (16,16))
-        busca_fail = CTkImage(Image.open("imagens/busca_fail.png"), size = (48,48))
-        nova_lista = CTkImage(Image.open("imagens/nova_lista.png"), size = (16,16))
+        logo = CTkImage(Image.open("imagens/icones/logo.png"), size =(128,128))
+        user = CTkImage(Image.open("imagens/icones/usuario.png"), size = (32,32))
+        config = CTkImage(Image.open("imagens/icones/config.png"), size = (32,32))
+        menu = CTkImage(Image.open("imagens/icones/menu.png"), size = (32,32))
+        tema = CTkImage(Image.open("imagens/icones/tema.png"), size = (16,16))
+        fechar = CTkImage(Image.open("imagens/icones/fechar.png"), size = (16,16))
+        sair = CTkImage(Image.open("imagens/icones/logout.png"), size = (16,16))
+        premium = CTkImage(Image.open("imagens/icones/premium.png"), size = (16,16))
+        busca = CTkImage(Image.open("imagens/icones/busca.png"), size = (16,16))
+        busca_fail = CTkImage(Image.open("imagens/icones/busca_fail.png"), size = (48,48))
+        nova_lista = CTkImage(Image.open("imagens/icones/nova_lista.png"), size = (16,16))
         
         ## Instanciando o objeto Usuario
         dados = Manipulador_User.carregar_dados(self.nome)
@@ -204,15 +204,22 @@ class App:
         erro_label.place(relx= 0.5, rely=0.65, anchor="center")
 
         def cards():
-            
-            erro_label.configure(text="")
-            erro_imagem.place_forget()
-            self.abrir_cards(scroll, usuario)
+            if self.lista_compras is None or not self.lista_compras:
+                if barra_pesquisa.get() == "":
+                    erro_label.configure(text="Ainda não temos uma lista ou busca, crie uma lista para aparecer os supermercados!")
+                    erro_imagem.place(relx= 0.5, rely=0.5, anchor= "center")
+            elif sum(self.lista_compras.values()) == 0 and barra_pesquisa.get() == "":
+                erro_label.configure(text="Sua lista está vazia, e sua pesquisa também")
+                erro_imagem.place(relx= 0.5, rely=0.5, anchor= "center")
+            else:
+                erro_label.configure(text="")
+                erro_imagem.place_forget()
+                self.abrir_cards(scroll, usuario)
         
         barra_pesquisa = CTkEntry(master= central, placeholder_text="Pesquise: Ex: Frango, Coca-Cola, Sabão", text_color=("#808080", "#A0A0A0"), corner_radius=2, fg_color = "transparent")
         barra_pesquisa.place(relx =0.5, rely=0.028,relwidth = 0.9,relheight = 0.055,anchor="center")
         
-        lista = CTkButton(master= central, image= nova_lista, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command = lambda: self.abrir_lista(app, "Marca"))
+        lista = CTkButton(master= central, image= nova_lista, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command = lambda: self.abrir_lista(app))
         lista.place(relx= 0.024, rely=0.028, relwidth = 0.05,relheight = 0.055, anchor="center")
         
         buscar = CTkButton(master= central, image=busca, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command = cards)

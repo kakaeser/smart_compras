@@ -1,39 +1,86 @@
 from customtkinter import *
+from PIL import Image
 import json
 
 
 class Lista:
     def __init__(self):
-        self.lista_compras = []
+        self.lista_compras = {}
+
+    def hover_on(self, event, botao: CTkButton) -> None:
+        botao.configure(font=("Montserrat", 18, "underline", "bold"))
+
+    def hover_off(self, event, botao:CTkButton) -> None:
+        botao.configure(font=("Montserrat", 18, "bold"))
     
-    def abrir_lista(self, app, marks):
+    def expandir_lista(self, categoria:CTkFrame) -> None:
+        selected = CTkImage(Image.open("imagens/icones/selected.png"), size = (16,16))
+        not_selected = CTkImage(Image.open("imagens/icones/not_selected2.png"), size = (16,16))
+        if categoria.expandido:
+            categoria.expandido= False
+            categoria.botao_ref.configure(image = not_selected)
+            categoria.adicional.pack_forget()
+        else:
+            categoria.expandido= True
+            categoria.botao_ref.configure(image = selected)
+            categoria.adicional.pack(anchor="w", padx=20)
+
+        categoria.master.update_idletasks()
+
+
+    
+    def abrir_lista(self, app) -> None:
         app1 = CTkToplevel(app)
         app1.geometry("500x700")
         app1.title("Lista de Compras")
         app1.transient(master=app)
+
+        not_selected = CTkImage(Image.open("imagens/icones/not_selected2.png"), size = (16,16))
         
         with open("banco_dados/lista_compras.json", "r", encoding="utf-8") as f:
             setores = json.load(f)
         
         variaveis_produtos = {}
 
+        def salvar(identificador) -> None:
+            self.lista_compras = {}
+            for produto, var in identificador.items():
+                self.lista_compras[produto] = var.get()
+            
+            app1.destroy()
+
+
         lista1 = CTkScrollableFrame(master = app1, fg_color="transparent", corner_radius=0)
         lista1.place(relx=0.5, rely=0.475,relwidth=1, relheight = 0.9, anchor="center")
+
         
         for setor, produtos in setores.items():
             categoria = CTkFrame(master= lista1, fg_color = "transparent")
             categoria.pack(pady=6, padx=20, fill = "x")
-            CTkLabel(master=categoria, text=setor, font=("Montserrat", 18, "bold")).pack(anchor ="w", pady=10)
+
+
+            botao_categoria = CTkButton(master=categoria,text=setor,image = not_selected ,font=("Montserrat", 18, "bold"), command= lambda current_categoria = categoria: self.expandir_lista(current_categoria),compound ="left", fg_color="transparent",hover=("#6D6C6C", "#888888"), text_color=("#808080", "#A0A0A0"))
+            botao_categoria.pack(anchor ="w",pady=10, padx=0)
+
+            botao_categoria.bind("<Enter>", lambda event, b=botao_categoria: self.hover_on(event,b))
+            botao_categoria.bind("<Leave>", lambda event, b=botao_categoria: self.hover_off(event,b))
+
+            categoria.expandido = False
+            categoria.botao_ref = botao_categoria
+
+            categoria.adicional = CTkFrame(master=categoria, fg_color="transparent")
             for produto in produtos:
                 var = IntVar()
-                chk = CTkCheckBox(master=categoria, text=produto, variable=var,fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16)
+                chk = CTkCheckBox(master=categoria.adicional, text=produto, variable=var,fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16)
                 chk.pack(anchor="w", padx=40)
                 variaveis_produtos[produto] = var
+                
+                self.mec_scroll(lista1, categoria, 4)
         
-        salvar = CTkButton(master = app1, text= "Salvar", command = app1.destroy, corner_radius = 0,fg_color="#17C5CE",hover_color="#1299A0")
-        salvar.place(relx = 0.35, rely = 0.95, anchor = "center")
+        btn_salvar = CTkButton(master = app1, text= "Salvar", command = lambda: salvar(variaveis_produtos), corner_radius = 0,fg_color="#17C5CE",hover_color="#1299A0")
+        btn_salvar.place(relx = 0.35, rely = 0.96, anchor = "center")
         
         cancelar = CTkButton(master = app1, text= "Cancelar", command = app1.destroy, corner_radius = 0,fg_color="transparent",hover_color=("#ADB4B4", "#1B1B1B"), text_color=("#000000", "#FFFFFF"))
-        cancelar.place(relx = 0.65, rely = 0.95, anchor = "center")
+        cancelar.place(relx = 0.65, rely = 0.96, anchor = "center")
         
-        self.mec_scroll(lista1, categoria)
+        

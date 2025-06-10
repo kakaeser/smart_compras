@@ -23,7 +23,7 @@ class Login:
             set_appearance_mode("dark")
 
             ## Titulo e texto de login
-            logo = CTkImage(Image.open("imagens/logo.png"), size =(128,128))
+            logo = CTkImage(Image.open("imagens/icones/logo.png"), size =(128,128))
             titulo = CTkLabel(master = login, image= logo, text="")
             titulo.place(relx = 0.5, rely = 0.18, anchor = "center")
             

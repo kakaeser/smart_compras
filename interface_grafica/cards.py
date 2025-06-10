@@ -10,8 +10,8 @@ class Cards:
         if not card.winfo_exists():
             return
         
-        selected = CTkImage(Image.open("imagens/selected.png"), size = (32,32))
-        not_selected = CTkImage(Image.open("imagens/not_selected1.png"), size = (32,32))
+        selected = CTkImage(Image.open("imagens/icones/selected.png"), size = (32,32))
+        not_selected = CTkImage(Image.open("imagens/icones/not_selected1.png"), size = (32,32))
 
         if card.expandido:
             # Colapsar o card
@@ -36,10 +36,10 @@ class Cards:
         
     def abrir_cards(self, scroll, usuario) -> None:
         self.fechar_cards()
-        not_selected = CTkImage(Image.open("imagens/not_selected1.png"), size = (32,32))
-        lista = CTkImage(Image.open("imagens/lista.png"), size = (16,16))
-        market = CTkImage(Image.open("imagens/market.png"), size = (192,144))
-        numero = 10
+        not_selected = CTkImage(Image.open("imagens/icones/not_selected1.png"), size = (32,32))
+        lista = CTkImage(Image.open("imagens/icones/lista.png"), size = (16,16))
+        market = CTkImage(Image.open("imagens/supermercados/market.png"), size = (192,144))
+        numero = sum(self.lista_compras.values())
         
         for i in range(20):
             card_height_comprimido = 160
@@ -77,7 +77,7 @@ class Cards:
                                                                                                                                            
             
             self.cards.append(card)
-            self.mec_scroll(scroll,card)
+            self.mec_scroll(scroll,card, 1)
     
     def fechar_cards(self) -> None:
         for card in self.cards:

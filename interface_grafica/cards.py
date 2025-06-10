@@ -1,5 +1,6 @@
 from customtkinter import *
 from PIL import Image
+import random
 
 class Cards:
     def __init__(self) -> None:
@@ -65,8 +66,10 @@ class Cards:
             card.adicional = CTkFrame(master=card, fg_color="transparent")
             
             CTkLabel(master=card.adicional, text=" Lista de produtos:", image = lista, font=("Montserrat", 16, "bold"), compound ="left").pack(pady=2, anchor="w")
-            for i in range(numero):
-                CTkLabel(master=card.adicional, text=f"Produtos {i+1}: R${i+15},00", font=("Montserrat", 16), wraplength=250).pack(pady=2, anchor="w")
+            for produto_nome, foi_selecionado in self.lista_compras.items():
+                if foi_selecionado == 1:
+                    valor = random.randint(11, 120)
+                    CTkLabel(master=card.adicional, text=f"{produto_nome}: R${valor},00", font=("Montserrat", 16), wraplength=250).pack(pady=2, anchor="w")
                                                                                                                                               
             card.adicional.place_forget()
 

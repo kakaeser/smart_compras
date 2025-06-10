@@ -7,10 +7,10 @@ class Lista:
     def __init__(self):
         self.lista_compras = {}
 
-    def hover_on(self, event, botao: CTkButton) -> None:
+    def hover_on(self, event, botao: CTkLabel) -> None:
         botao.configure(font=("Montserrat", 18, "underline", "bold"))
 
-    def hover_off(self, event, botao:CTkButton) -> None:
+    def hover_off(self, event, botao:CTkLabel) -> None:
         botao.configure(font=("Montserrat", 18, "bold"))
     
     def expandir_lista(self, categoria:CTkFrame) -> None:
@@ -56,17 +56,20 @@ class Lista:
         
         for setor, produtos in setores.items():
             categoria = CTkFrame(master= lista1, fg_color = "transparent")
-            categoria.pack(pady=6, padx=20, fill = "x")
+            categoria.pack(pady=6, padx=(5,20), fill = "x", anchor= "w")
 
+            categoria1 = CTkFrame(master= categoria, fg_color="transparent")
+            categoria1.pack(fill="x", anchor="w")
 
-            botao_categoria = CTkButton(master=categoria,text=setor,image = not_selected ,font=("Montserrat", 18, "bold"), command= lambda current_categoria = categoria: self.expandir_lista(current_categoria),compound ="left", fg_color="transparent",hover=("#6D6C6C", "#888888"), text_color=("#808080", "#A0A0A0"))
-            botao_categoria.pack(anchor ="w",pady=10, padx=0)
+            imagem_categoria = CTkLabel(master= categoria1,text=" " + setor,image = not_selected ,font=("Montserrat", 18, "bold"), fg_color="transparent",text_color=("#808080", "#A0A0A0"),anchor="w", compound="left", cursor="hand2")
+            imagem_categoria.pack(fill="x", anchor="w", pady=10, padx=(0,0))
 
-            botao_categoria.bind("<Enter>", lambda event, b=botao_categoria: self.hover_on(event,b))
-            botao_categoria.bind("<Leave>", lambda event, b=botao_categoria: self.hover_off(event,b))
+            imagem_categoria.bind("<Button-1>", lambda event, current_categoria=categoria: self.expandir_lista(current_categoria))
+            imagem_categoria.bind("<Enter>", lambda event, lbl=imagem_categoria: self.hover_on(event, lbl))
+            imagem_categoria.bind("<Leave>", lambda event, lbl=imagem_categoria: self.hover_off(event, lbl))
 
             categoria.expandido = False
-            categoria.botao_ref = botao_categoria
+            categoria.botao_ref = imagem_categoria
 
             categoria.adicional = CTkFrame(master=categoria, fg_color="transparent")
             for produto in produtos:

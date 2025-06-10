@@ -1,7 +1,7 @@
 from customtkinter import *
-from banco_dados.manipulador_user import Manipulador_User
-from classes.usuario_classes.usuario import Usuario
-from classes.usuario_classes.usuariopremium import UsuarioPremium
+from src.manipulador_classes.manipulador_user import Manipulador_User
+from src.usuario_classes.usuario import Usuario
+from src.usuario_classes.usuariopremium import UsuarioPremium
 from PIL import Image
 
 
@@ -17,14 +17,14 @@ class Login:
             app = CTk()
             app.geometry("500x400")
             app.title("Login")
+            self.logo = CTkImage(Image.open("banco_dados/imagens/icones/logo.png"), size =(128,128))
 
             login = CTkFrame(master = app, fg_color=("#DDE7E7", "#2C2C2C"),width = 500, height = 400)
             login.place(relx = 0.5, rely = 0.5 ,anchor = "center")
             set_appearance_mode("dark")
 
             ## Titulo e texto de login
-            logo = CTkImage(Image.open("imagens/icones/logo.png"), size =(128,128))
-            titulo = CTkLabel(master = login, image= logo, text="")
+            titulo = CTkLabel(master = login, image= self.logo, text="")
             titulo.place(relx = 0.5, rely = 0.18, anchor = "center")
             
             textin = CTkLabel(master=login, text="Login :", font = ("Montserrat", 12))

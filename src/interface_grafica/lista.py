@@ -14,15 +14,13 @@ class Lista:
         botao.configure(font=("Montserrat", 18, "bold"))
     
     def expandir_lista(self, categoria:CTkFrame) -> None:
-        selected = CTkImage(Image.open("imagens/icones/selected.png"), size = (16,16))
-        not_selected = CTkImage(Image.open("imagens/icones/not_selected2.png"), size = (16,16))
         if categoria.expandido:
             categoria.expandido= False
-            categoria.botao_ref.configure(image = not_selected)
+            categoria.botao_ref.configure(image = self.not_selected2)
             categoria.adicional.pack_forget()
         else:
             categoria.expandido= True
-            categoria.botao_ref.configure(image = selected)
+            categoria.botao_ref.configure(image = self.selected2)
             categoria.adicional.pack(anchor="w", padx=20)
 
         categoria.master.update_idletasks()
@@ -35,8 +33,6 @@ class Lista:
         app1.title("Lista de Compras")
         app1.transient(master=app)
 
-        not_selected = CTkImage(Image.open("imagens/icones/not_selected2.png"), size = (16,16))
-        
         with open("banco_dados/lista_compras.json", "r", encoding="utf-8") as f:
             setores = json.load(f)
         
@@ -61,7 +57,7 @@ class Lista:
             categoria1 = CTkFrame(master= categoria, fg_color="transparent")
             categoria1.pack(fill="x", anchor="w")
 
-            imagem_categoria = CTkLabel(master= categoria1,text=" " + setor,image = not_selected ,font=("Montserrat", 18, "bold"), fg_color="transparent",text_color=("#808080", "#A0A0A0"),anchor="w", compound="left", cursor="hand2")
+            imagem_categoria = CTkLabel(master= categoria1,text=" " + setor,image = self.not_selected2 ,font=("Montserrat", 18, "bold"), fg_color="transparent",text_color=("#808080", "#A0A0A0"),anchor="w", compound="left", cursor="hand2")
             imagem_categoria.pack(fill="x", anchor="w", pady=10, padx=(0,0))
 
             imagem_categoria.bind("<Button-1>", lambda event, current_categoria=categoria: self.expandir_lista(current_categoria))

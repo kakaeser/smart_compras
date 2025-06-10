@@ -1,5 +1,5 @@
 from customtkinter import *
-from banco_dados.manipulador_user import Manipulador_User
+from src.manipulador_classes.manipulador_user import Manipulador_User
 from PIL import Image
 
 class User():
@@ -10,8 +10,6 @@ class User():
     app1.title("Usuário")
     app1.transient(master=app)
 
-    edit = CTkImage(Image.open("imagens/icones/editar.png"), size = (16,16))
-    verificar = CTkImage(Image.open("imagens/icones/verificar.png"), size = (16,16))
 
     ##Apenas para Windows
     if os =="Windows":
@@ -128,7 +126,7 @@ class User():
         entries[key] = entry 
         entry_var.trace_add("write", lambda name, index, mode: checagem_alterar())
   
-        btn_editar = CTkButton(master=open_user, command=lambda e=entry: edicao(e), text="", corner_radius=2, fg_color=("#ADB4B4", "#1B1B1B"),hover_color=("#C7C7C7", "#474747"), image = edit)
+        btn_editar = CTkButton(master=open_user, command=lambda e=entry: edicao(e), text="", corner_radius=2, fg_color=("#ADB4B4", "#1B1B1B"),hover_color=("#C7C7C7", "#474747"), image = self.edit)
         btn_editar.place(relx=0.68, rely=rely_pos, relwidth=0.064, relheight=0.046, anchor="center")
   
     titulo = CTkLabel(master= open_user, text= f"Usuario id: {usuario.id_user}" ,text_color=("#808080", "#A0A0A0"),font = ("Montserrat", 16, "bold"))
@@ -138,10 +136,10 @@ class User():
         idd.place(relx=0.43, rely=0.1,relwidth=0.38, relheight=0.046, anchor="center")
         titulo.configure(text="")
         titulo.place(rely=0, relx=0, anchor="center")
-        btn_id.configure(image = verificar)
+        btn_id.configure(image = self.verificar)
         checagem_alterar()
 
-    btn_id = CTkButton(master=open_user, text="", corner_radius=2, fg_color=("#ADB4B4", "#1B1B1B"),hover_color=("#C7C7C7", "#474747"), image = edit, command = edit_id)
+    btn_id = CTkButton(master=open_user, text="", corner_radius=2, fg_color=("#ADB4B4", "#1B1B1B"),hover_color=("#C7C7C7", "#474747"), image = self.edit, command = edit_id)
     if len(usuario.id_user) == 8:
         btn_id.place(relx=0.68, rely=0.1,relwidth=0.064, relheight=0.046, anchor="center")
 

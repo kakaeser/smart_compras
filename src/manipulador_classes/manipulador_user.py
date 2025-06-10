@@ -1,4 +1,4 @@
-from banco_dados.manipulador import Manipulador
+from src.manipulador_classes.manipulador import Manipulador
 import json
 import os
 import random
@@ -9,7 +9,7 @@ class Manipulador_User(Manipulador):
 
     def caminho_arquivo() -> str:
         pasta_base = os.path.dirname(__file__)
-        return os.path.join(pasta_base, "..", "banco_dados", "usuarios.json")
+        return os.path.join(pasta_base,".." ,"..", "banco_dados", "usuarios.json")
     
 
     def gerar_id_aleatorio_unico() -> str:

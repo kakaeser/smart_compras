@@ -1,4 +1,4 @@
-from classes.usuario_classes.usuario import Usuario
+from src.usuario_classes.usuario import Usuario
 import math
 
 class UsuarioPremium(Usuario):

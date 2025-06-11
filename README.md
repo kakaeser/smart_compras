@@ -9,24 +9,19 @@ A proposta é simular uma espécie de “teletransporte” virtual entre superme
 
 🔄 Níveis de Funcionamento:
 
-🧭 Nível 1 – Raio de Análise
-O usuário define a região de interesse (raio geográfico) para consulta de supermercados.
-
-Essa etapa limita ou amplia a abrangência da busca.
-
-📋 Nível 2 – Lista de Compras
+📋 Nível 1 – Lista de Compras
 O sistema exibe todos os produtos disponíveis em cada supermercado.
 
 O usuário monta sua lista de compras personalizada com base no que precisa.
 
-🧮 Nível 3 – Cálculo de Gastos por Supermercado
+🧮 Nível 2 – Cálculo de Gastos por Supermercado
 O sistema cruza a lista de compras do usuário com os preços de cada supermercado dentro do raio definido.
 
 Mostra o valor total da compra em cada supermercado.
 
 Permite comparar qual supermercado é mais econômico.
 
-🚗 Nível 4 – Análise com Deslocamento (Para veículos) (apenas no premium)
+🚗 Nível 3 – Análise com Distancia e Deslocamento (Para veículos) (apenas no premium)
 Considera o consumo médio do veículo (carro, moto, caminhão).
 
 Usa dados de localização e rotas (ex: via GPS ou simulação via Waze).

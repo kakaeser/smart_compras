@@ -9,7 +9,8 @@ class UsuarioPremium(Usuario):
     new_id = "USR" + novo + "P"
     return new_id
   
-  def alterar_id(self, idn):
+  @Usuario.id_user.setter
+  def id_user(self, idn):
     self.id_user = idn
 
   

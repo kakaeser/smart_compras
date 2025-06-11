@@ -1,23 +1,53 @@
 class Usuario:
   def __init__ (self, nome:str, email:str, senha:str, cpf:str, cep:str, id_user:str):
-    self.nome= nome
-    self.email= email
-    self.senha = senha
-    self.cpf= cpf
-    self.cep = cep
-    self.id_user = id_user
+    self._nome= nome
+    self._email= email
+    self._senha = senha
+    self._cpf= cpf
+    self._cep = cep
+    self._id_user = id_user
   
-  def alterar_nome(self, n_nome) -> None:
-    self.nome = n_nome
-    
-  def alterar_email(self, n_email) -> None:
-    self.email = n_email
-    
-  def alterar_senha(self, n_senha) -> None:
-    self.senha = n_senha
-    
-  def alterar_cpf(self, n_cpf) -> None:
-    self.cpf = n_cpf
+  @property
+  def nome(self) -> str:
+    return self._nome
 
-  def alterar_cep(self, n_cep) -> None:
-    self.cep = n_cep
+  @nome.setter
+  def nome(self, n_nome) -> None:
+    self._nome = n_nome
+    
+  @property
+  def email(self) -> str:
+    return self._email 
+
+  @email.setter
+  def email(self, n_email) -> None:
+    self._email = n_email
+  
+  @property
+  def senha(self) -> str:
+    return self._senha
+    
+  @senha.setter
+  def senha(self, n_senha) -> None:
+    self._senha = n_senha
+  
+  @property
+  def cpf(self) -> str:
+    return self._cpf
+  
+  @cpf.setter
+  def cpf(self, n_cpf) -> None:
+    self._cpf = n_cpf
+
+  @property
+  def cep(self) -> str:
+    return self._cep
+  
+  @cep.setter
+  def cep(self, n_cep) -> None:
+    self._cep = n_cep
+
+  @property
+  def id_user(self) -> str:
+    return self._id_user
+  

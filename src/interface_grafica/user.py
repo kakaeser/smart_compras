@@ -1,6 +1,7 @@
 from customtkinter import *
 from manipulador_classes.manipulador_user import Manipulador_User
 from PIL import Image
+import re
 
 class User():
     #Inicialização de uma janela que mostra os dados do usuario e pode edita-los
@@ -56,16 +57,40 @@ class User():
         checagem_alterar()
   
     def alterar_dados() -> None:
+        email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        senha_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)$"
+        if not entry_vars["nome"].get().isalnum():
+            erro_label.configure(text="Nome inválido, não utilize espaços ou caracteres especiais")
+            return
+        
+        if not re.fullmatch(email_regex, entry_vars["email"].get()):
+            erro_label.configure(text="Email inválido. Verifique o formato (ex: nome@dominio.com).")
+            return
+        
         if len(idd.get()) != 4:
             erro_label.configure(text="ID inválido, use apenas 4 numeros")
             return
         else:
             idn = usuario.calcular_novo_id(idd.get())
-        if len(entry_vars["cpf"].get()) != 11:
+        if len(entry_vars["cpf"].get()) != 11 or not entry_vars["cpf"].isdigit():
             erro_label.configure(text="CPF inválido")
             return
-        if len(entry_vars["cep"].get()) != 8 and len(entry_vars["cep"].get()) != 9:
+        
+        cep_limpo = entry_vars["cep"].get().replace("-", "")
+        if len(entry_vars["cep"].get()) != 8 or not entry_vars["cep"].get().isdigit():
             erro_label.configure(text="CEP inválido")
+            return
+        
+        if len(entry_vars["senha"].get()) < 8:
+            erro_label.configure(text="Sua senha é muito fraca, coloque pelo menos 8 caracteres")
+            return
+        
+        if not re.search(r"\S", entry_vars["senha"].get()): 
+            erro_label.configure(text="Sua senha não deve ter espaços")
+            return
+        
+        if not re.fullmatch(senha_regex, entry_vars["senha"].get()):
+            erro_label.configure(text="Sua senha deve ter pelo menos uma letra maiúscula e um número")
             return
         if entry_vars["nome"].get() != "" and entry_vars["nome"].get() !=valores_originais["nome"]:
             verificador = Manipulador_User.conferir_dados(entry_vars["nome"].get())
@@ -74,7 +99,7 @@ class User():
                 return
             else:
                 Manipulador_User.editar_dados(usuario.nome, "nome", entry_vars["nome"].get())
-                usuario.alterar_nome(entry_vars["nome"].get())
+                usuario.nome = entry_vars["nome"].get()
         if entry_vars["email"].get() != "" and entry_vars["email"].get() !=valores_originais["email"]:
             verificador = Manipulador_User.conferir_dados(entry_vars["email"].get())
             if verificador == 2:
@@ -82,10 +107,10 @@ class User():
                 return
             else:
                 Manipulador_User.editar_dados(usuario.nome, "email", entry_vars["email"].get())
-                usuario.alterar_email(entry_vars["email"].get())
+                usuario.email = entry_vars["email"].get()
         if entry_vars["senha"].get() != "" and entry_vars["senha"].get() !=valores_originais["senha"]:
             Manipulador_User.editar_dados(usuario.nome, "senha", entry_vars["senha"].get())
-            usuario.alterar_senha(entry_vars["senha"].get())
+            usuario.senha = entry_vars["senha"].get()
         if entry_vars["cpf"].get() != "" and entry_vars["cpf"].get() !=valores_originais["cpf"]:
             verificador = Manipulador_User.conferir_dados(entry_vars["cpf"].get())
             if verificador == 3:
@@ -93,7 +118,7 @@ class User():
                 return
             else:
                 Manipulador_User.editar_dados(usuario.nome, "cpf", entry_vars["cpf"].get())
-                usuario.alterar_cpf(entry_vars["cpf"].get())
+                usuario.cpf = entry_vars["cpf"].get()
         if idd.get() != "" and idn != usuario.id_user:
             verificador = Manipulador_User.conferir_dados(idn)
             if verificador == 4:
@@ -101,7 +126,7 @@ class User():
                 return
             else:
                 Manipulador_User.editar_dados(usuario.nome, "id_user", idn)
-                usuario.alterar_id(idn)
+                usuario.id = idn
 
         if entry_vars["cep"].get() != "" and entry_vars["cep"].get() !=valores_originais["cep"]:
             Manipulador_User.editar_dados(usuario.nome, "cep", entry_vars["cep"].get())

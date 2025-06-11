@@ -1,7 +1,6 @@
 from customtkinter import *
 from manipulador_classes.manipulador_user import Manipulador_User
-
-
+import re
 
 class Cadastro:
      
@@ -102,22 +101,42 @@ class Cadastro:
             normal.destroy()
             premium.destroy()
             termos()
+
         
         #Autentificador de dados coletados, previne email e usuarios repetidos
         def autenticar() -> None:
+            email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            senha_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)$"
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
                 erro_label.configure(text="Você não preencheu todos os campos!!")
                 return
-            if len(cpf.get()) != 11:
+            if not user.get().isalnum():
+                erro_label.configure(text="Nome inválido, não utilize espaços ou caracteres especiais")
+                return
+            
+            if not re.fullmatch(email_regex, email.get()):
+                erro_label.configure(text="Email inválido. Verifique o formato (ex: nome@dominio.com).")
+                return
+            
+            if len(cpf.get()) != 11 or not cpf.get().isdigit():
                 erro_label.configure(text="CPF inválido")
                 return
-              
-            if len(cep.get()) != 8:
+            
+            cep_limpo = cep.get().replace("-", "")
+            if not (len(cep_limpo) == 8) or not cep.get().isdigit():
                 erro_label.configure(text="CEP inválido")
                 return
             
             if len(password.get()) < 8:
                 erro_label.configure(text="Sua senha é muito fraca, coloque pelo menos 8 caracteres")
+                return
+            
+            if not re.search(r"\S", password.get()): 
+                erro_label.configure(text="Sua senha não deve ter espaços")
+                return
+            
+            if not re.fullmatch(senha_regex, password.get()):
+                erro_label.configure(text="Sua senha deve ter pelo menos uma letra maiúscula e um número")
                 return
 
             if cpassword.get() != password.get():

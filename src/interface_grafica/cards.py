@@ -34,6 +34,10 @@ class Cards:
         
     def abrir_cards(self, scroll, usuario) -> None:
         self.fechar_cards()
+
+        self.lista = CTkImage(Image.open("images/icones/lista.png"), size = (16,16))
+        self.market = CTkImage(Image.open("images/supermercados/market.png"), size = (192,144))
+        self.distancia = CTkImage(Image.open("images/icones/distancia.png"), size = (16,16))
         
         numero = sum(self.lista_compras.values())
         
@@ -52,11 +56,11 @@ class Cards:
             imagem.place(relx = 0.14, y = 50, anchor="center")
             
             nome_mercado= CTkLabel(master= card, text = f"Supermercado {i+1} - R${i+15},00", font=("Montserrat", 28, "bold"))
-            nome_mercado.place(relx = 0.475, y = 30, anchor="center")
+            nome_mercado.place(relx = 0.25, y = 30, anchor="w")
 
             if len(usuario.id_user) == 8:
-                distancia = CTkLabel(master= card, text = f"Distância = {usuario.calcular_distancia(i*100,0)}m", font=("Montserrat", 22))
-                distancia.place(relx = 0.375, y = 60, anchor="center")
+                distancia = CTkLabel(master= card, text = f" Distância = {usuario.calcular_distancia(i*100,0)}m", font=("Montserrat", 22), compound="left", image = self.distancia)
+                distancia.place(relx = 0.25, y = 60, anchor="w")
 
             card.adicional = CTkFrame(master=card, fg_color="transparent")
             

@@ -1,4 +1,4 @@
-from src.interface_grafica.interface import Interface
+from interface_grafica.interface import Interface
 
 def main():
   inter = Interface()

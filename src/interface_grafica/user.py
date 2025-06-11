@@ -1,5 +1,5 @@
 from customtkinter import *
-from src.manipulador_classes.manipulador_user import Manipulador_User
+from manipulador_classes.manipulador_user import Manipulador_User
 from PIL import Image
 
 class User():
@@ -10,6 +10,8 @@ class User():
     app1.title("Usuário")
     app1.transient(master=app)
 
+    self.edit = CTkImage(Image.open("images/icones/editar.png"), size = (16,16))
+    self.verificar = CTkImage(Image.open("images/icones/verificar.png"), size = (16,16))
 
     ##Apenas para Windows
     if os =="Windows":

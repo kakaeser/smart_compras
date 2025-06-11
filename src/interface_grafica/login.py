@@ -1,7 +1,7 @@
 from customtkinter import *
-from src.manipulador_classes.manipulador_user import Manipulador_User
-from src.usuario_classes.usuario import Usuario
-from src.usuario_classes.usuariopremium import UsuarioPremium
+from manipulador_classes.manipulador_user import Manipulador_User
+from usuario_classes.usuario import Usuario
+from usuario_classes.usuariopremium import UsuarioPremium
 from PIL import Image
 
 
@@ -17,7 +17,7 @@ class Login:
             app = CTk()
             app.geometry("500x400")
             app.title("Login")
-            self.logo = CTkImage(Image.open("banco_dados/imagens/icones/logo.png"), size =(128,128))
+            self.logo = CTkImage(Image.open("images/icones/logo.png"), size =(128,128))
 
             login = CTkFrame(master = app, fg_color=("#DDE7E7", "#2C2C2C"),width = 500, height = 400)
             login.place(relx = 0.5, rely = 0.5 ,anchor = "center")

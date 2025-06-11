@@ -1,7 +1,7 @@
 from customtkinter import *
-from src.manipulador_classes.manipulador_user import Manipulador_User
-from src.usuario_classes.usuario import Usuario
-from src.usuario_classes.usuariopremium import UsuarioPremium
+from manipulador_classes.manipulador_user import Manipulador_User
+from usuario_classes.usuario import Usuario
+from usuario_classes.usuariopremium import UsuarioPremium
 from PIL import Image
 import platform
 so = platform.system()
@@ -53,7 +53,19 @@ class App:
         app.geometry("1280x720")
         app.title("SmartCompras")
         
-        self.logo = CTkImage(Image.open("banco_dados/imagens/icones/logo.png"), size =(128,128))
+        self.logo = CTkImage(Image.open("images/icones/logo.png"), size =(128,128))
+        self.user = CTkImage(Image.open("images/icones/usuario.png"), size = (32,32))
+        self.config = CTkImage(Image.open("images/icones/config.png"), size = (32,32))
+        self.menu = CTkImage(Image.open("images/icones/menu.png"), size = (32,32))
+        self.tema = CTkImage(Image.open("images/icones/tema.png"), size = (16,16))
+        self.fechar = CTkImage(Image.open("images/icones/fechar.png"), size = (16,16))
+        self.sair = CTkImage(Image.open("images/icones/logout.png"), size = (16,16))
+        self.premium = CTkImage(Image.open("images/icones/premium.png"), size = (16,16))
+        self.busca = CTkImage(Image.open("images/icones/busca.png"), size = (16,16))
+        self.busca_fail = CTkImage(Image.open("images/icones/busca_fail.png"), size = (48,48))
+        self.nova_lista = CTkImage(Image.open("images/icones/nova_lista.png"), size = (16,16))
+        self.selected1 = CTkImage(Image.open("images/icones/selected.png"), size = (32,32))
+        self.not_selected1 = CTkImage(Image.open("images/icones/not_selected1.png"), size = (32,32))
 
         ##Variaveis para a barralateral
         sidebar_width = 250

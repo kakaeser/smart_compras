@@ -1,5 +1,5 @@
 from customtkinter import *
-from src.manipulador_classes.manipulador_user import Manipulador_User
+from manipulador_classes.manipulador_user import Manipulador_User
 
 
 

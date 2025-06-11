@@ -1,4 +1,4 @@
-from src.manipulador_classes.manipulador import Manipulador
+from manipulador_classes.manipulador import Manipulador
 import json
 import os
 import random

@@ -33,6 +33,9 @@ class Lista:
         app1.title("Lista de Compras")
         app1.transient(master=app)
 
+        self.selected2 = CTkImage(Image.open("images/icones/selected.png"), size = (16,16))
+        self.not_selected2 = CTkImage(Image.open("images/icones/not_selected2.png"), size = (16,16))
+
         with open("banco_dados/lista_compras.json", "r", encoding="utf-8") as f:
             setores = json.load(f)
         

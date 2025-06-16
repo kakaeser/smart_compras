@@ -1,11 +1,13 @@
 from customtkinter import *
 from PIL import Image
+import os
 import random
 
 class Cards:
     def __init__(self) -> None:
         self.cards = [] 
         self.current_expanded_card = None
+        
     
     def toggle_card_expansion(self, card: CTkFrame) -> None:
         if not card.winfo_exists():
@@ -35,9 +37,9 @@ class Cards:
     def abrir_cards(self, scroll, usuario) -> None:
         self.fechar_cards()
 
-        self.lista = CTkImage(Image.open("images/icones/lista.png"), size = (16,16))
-        self.market = CTkImage(Image.open("images/supermercados/market.png"), size = (192,144))
-        self.distancia = CTkImage(Image.open("images/icones/distancia.png"), size = (16,16))
+        self.lista = self.carregar_icones("lista.png", (16,16))
+        self.market = self.carregar_supermercados("market.png", (192,144))
+        self.distancia = self.carregar_icones("distancia.png",(16,16))
         
         numero = sum(self.lista_compras.values())
         

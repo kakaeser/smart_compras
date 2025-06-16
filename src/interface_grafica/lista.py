@@ -6,6 +6,8 @@ import json
 class Lista:
     def __init__(self):
         self.lista_compras = {}
+        pasta_base = os.path.dirname(__file__)
+        self.caminho_lista = os.path.join(pasta_base,".." ,"..", "banco_dados", "lista_compras.json")
 
     def hover_on(self, event, botao: CTkLabel) -> None:
         botao.configure(font=("Montserrat", 18, "underline", "bold"))
@@ -24,6 +26,8 @@ class Lista:
             categoria.adicional.pack(anchor="w", padx=20)
 
         categoria.master.update_idletasks()
+    
+    
 
 
     
@@ -33,10 +37,10 @@ class Lista:
         app1.title("Lista de Compras")
         app1.transient(master=app)
 
-        self.selected2 = CTkImage(Image.open("images/icones/selected.png"), size = (16,16))
-        self.not_selected2 = CTkImage(Image.open("images/icones/not_selected2.png"), size = (16,16))
+        self.selected2 = self.carregar_icones("selected.png", (16,16))
+        self.not_selected2 = self.carregar_icones("not_selected2.png", (16,16))
 
-        with open("banco_dados/lista_compras.json", "r", encoding="utf-8") as f:
+        with open(self.caminho_lista, "r", encoding="utf-8") as f:
             setores = json.load(f)
         
         variaveis_produtos = {}

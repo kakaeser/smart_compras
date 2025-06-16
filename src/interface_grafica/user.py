@@ -11,8 +11,8 @@ class User():
     app1.title("Usuário")
     app1.transient(master=app)
 
-    self.edit = CTkImage(Image.open("images/icones/editar.png"), size = (16,16))
-    self.verificar = CTkImage(Image.open("images/icones/verificar.png"), size = (16,16))
+    self.edit = self.carregar_icones("editar.png", (16,16))
+    self.verificar = self.carregar_icones("verificar.png", (16,16))
 
     ##Apenas para Windows
     if os =="Windows":

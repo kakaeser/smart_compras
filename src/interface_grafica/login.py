@@ -17,7 +17,7 @@ class Login:
             app = CTk()
             app.geometry("500x400")
             app.title("Login")
-            self.logo = CTkImage(Image.open("images/icones/logo.png"), size =(128,128))
+            self.logo = self.carregar_icones("logo.png", (128,128))
 
             login = CTkFrame(master = app, fg_color=("#DDE7E7", "#2C2C2C"),width = 500, height = 400)
             login.place(relx = 0.5, rely = 0.5 ,anchor = "center")

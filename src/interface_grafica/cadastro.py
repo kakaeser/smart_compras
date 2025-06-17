@@ -51,7 +51,7 @@ class Cadastro:
         def termos() -> None:
             termo = CTkTextbox(master= cadastro)
             try:
-                with open("banco_dados/termos.txt", "r", encoding="utf-8") as arquivo:
+                with open("../banco_dados/termos.txt", "r", encoding="utf-8") as arquivo:
                     conteudo = arquivo.read()
                     termo.insert("0.0", conteudo)
             except FileNotFoundError:
@@ -106,7 +106,7 @@ class Cadastro:
         #Autentificador de dados coletados, previne email e usuarios repetidos
         def autenticar() -> None:
             email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-            senha_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)$"
+            senha_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$"
             if user.get() == "" or email.get() == "" or cpf.get() == "" or cep.get() == "" or password.get() == "" or cpassword.get() == "":
                 erro_label.configure(text="Você não preencheu todos os campos!!")
                 return

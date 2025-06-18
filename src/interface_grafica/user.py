@@ -1,6 +1,5 @@
 from customtkinter import *
 from manipulador_classes.manipulador_user import Manipulador_User
-from PIL import Image
 import re
 
 class User():

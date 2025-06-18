@@ -26,9 +26,6 @@ class Lista:
             categoria.adicional.pack(anchor="w", padx=20)
 
         categoria.master.update_idletasks()
-    
-    
-
 
     
     def abrir_lista(self, app) -> None:

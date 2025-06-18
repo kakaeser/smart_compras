@@ -8,12 +8,15 @@ class Lista:
         self.lista_compras = {}
         pasta_base = os.path.dirname(__file__)
         self.caminho_lista = os.path.join(pasta_base,".." ,"..", "banco_dados", "lista_compras.json")
+        
 
     def hover_on(self, event, botao: CTkLabel) -> None:
-        botao.configure(font=("Montserrat", 18, "underline", "bold"))
+        botao.configure(font=self.normal)
+        botao.cget("font").configure(underline = True)
 
     def hover_off(self, event, botao:CTkLabel) -> None:
-        botao.configure(font=("Montserrat", 18, "bold"))
+        botao.configure(font=self.font_normal)
+        botao.cget("font").configure(underline = False)
     
     def expandir_lista(self, categoria:CTkFrame) -> None:
         if categoria.expandido:
@@ -26,7 +29,7 @@ class Lista:
             categoria.adicional.pack(anchor="w", padx=20)
 
         categoria.master.update_idletasks()
-
+ 
     
     def abrir_lista(self, app) -> None:
         app1 = CTkToplevel(app)
@@ -36,6 +39,8 @@ class Lista:
 
         self.selected2 = self.carregar_icones("selected.png", (16,16))
         self.not_selected2 = self.carregar_icones("not_selected2.png", (16,16))
+
+        self.font_normal = CTkFont(family="Montserrat", size=18, weight="bold")
 
         with open(self.caminho_lista, "r", encoding="utf-8") as f:
             setores = json.load(f)
@@ -61,7 +66,7 @@ class Lista:
             categoria1 = CTkFrame(master= categoria, fg_color="transparent")
             categoria1.pack(fill="x", anchor="w")
 
-            imagem_categoria = CTkLabel(master= categoria1,text=" " + setor,image = self.not_selected2 ,font=("Montserrat", 18, "bold"), fg_color="transparent",text_color=("#808080", "#A0A0A0"),anchor="w", compound="left", cursor="hand2")
+            imagem_categoria = CTkLabel(master= categoria1,text=" " + setor,image = self.not_selected2 ,font=("Montserrat", 18,  "bold"), fg_color="transparent",text_color=("#808080", "#A0A0A0"),anchor="w", compound="left", cursor="hand2")
             imagem_categoria.pack(fill="x", anchor="w", pady=10, padx=(0,0))
 
             imagem_categoria.bind("<Button-1>", lambda event, current_categoria=categoria: self.expandir_lista(current_categoria))

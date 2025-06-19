@@ -7,8 +7,9 @@ from interface_grafica.user import User
 from interface_grafica.cards import Cards
 from interface_grafica.lista import Lista
 from interface_grafica.abrir_imagem import AbrirImagens
+from interface_grafica.pagamento import Pagamento
 
-class Interface(Login, App, Cadastro, User, Cards, Lista, AbrirImagens):
+class Interface(Login, App, Cadastro, User, Cards, Lista, AbrirImagens, Pagamento):
     def __init__(self):
         Login.__init__(self,"", "","")
         Cards.__init__(self)

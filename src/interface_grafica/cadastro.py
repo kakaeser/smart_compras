@@ -9,12 +9,13 @@ class Cadastro:
         self.email_ = None
         self.cep= None
         self.cpf = None
-        self.cep = None
         self.password = None
         self.cpassword = None
         self.select = None
+        self.ipix = None
+        
           
-     def criacao(self, termo: CTkTextbox, mostrar: CTkCheckBox, confirm: CTkButton, app: CTkFrame, btn: CTkButton) -> None:
+     def criacao(self, termo: CTkTextbox, mostrar: CTkCheckBox, confirm: CTkButton, app: CTkToplevel) -> None:
         termo.destroy()
         mostrar.destroy()
         confirm.destroy()
@@ -27,6 +28,7 @@ class Cadastro:
         self.password = CTkEntry(master = app,placeholder_text="Senha", show = "*")
         self.cpassword = CTkEntry(master = app,placeholder_text="Confirmar Senha", show = "*")
         
+        
         self.textin.place(relx = 0.4, rely = 0.33, relwidth = 0.25, relheight = 0.08, anchor = "center")
         self.user.place(relx = 0.5, rely = 0.2, relwidth = 0.5, relheight = 0.08, anchor="center") 
         self.email_.place(relx = 0.5, rely = 0.3, relwidth = 0.5, relheight = 0.08, anchor="center") 
@@ -34,41 +36,24 @@ class Cadastro:
         self.cep.place(relx = 0.5, rely = 0.5, relwidth = 0.5, relheight = 0.08, anchor="center")
         self.password.place(relx = 0.5, rely = 0.6, relwidth = 0.5, relheight = 0.08, anchor="center")
         self.cpassword.place(relx = 0.5, rely = 0.7, relwidth = 0.5, relheight = 0.08, anchor="center") 
-        btn.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
+        self.btn.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
     #Seleção de plano premium    
-     def premium_select(self, normal: CTkButton, premium: CTkButton, app : CTkFrame, cadastro: CTkFrame, btn: CTkButton) -> None: 
+     def premium_select(self, normal: CTkButton, premium: CTkButton, app : CTkToplevel) -> None: 
         self.select = True
         normal.destroy()
         premium.destroy()
-        self.forma_pagamento(app,"termos",cadastro, btn)
+        self.forma_pagamento(app,"termos")
+
     #Seleção de plano gratuito
-     def normal_select(self, normal: CTkButton, premium: CTkButton, app : CTk, cadastro: CTkFrame, btn: CTkButton) -> None:
+     def normal_select(self, normal: CTkButton, premium: CTkButton, app: CTkToplevel) -> None:
         self.select = False
         normal.destroy()
         premium.destroy()
-        self.termos(cadastro, app, btn)
+        self.termos(app)
     
-     def forma_pagamento(self, app: CTk, comando:str, cadastro: CTkFrame, btn: CTkButton)-> None:
-         def aplicar_comando():
-            credito.destroy()
-            debito.destroy()
-            pix.destroy()
-            if comando == "termos":
-                self.termos(cadastro, app, btn) 
-            else:
-                comando()
-            
-         credito = CTkButton(master= app, text= "Crédito", command= aplicar_comando, corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0")
-         credito.place(relx = 0.5, rely = 0.4, anchor="center")
-
-         debito = CTkButton(master= app, text= "Debito", command= aplicar_comando, corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0")
-         debito.place(relx = 0.5, rely = 0.5, anchor="center")
-
-         pix = CTkButton(master= app, text= "PIX", command= aplicar_comando, corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0")
-         pix.place(relx = 0.5, rely = 0.6, anchor="center")
      
-     def termos(self, cadastro: CTkFrame, app: CTk, btn:CTkButton) -> None:
-            termo = CTkTextbox(master= cadastro)
+     def termos(self,app: CTkToplevel) -> None:
+            termo = CTkTextbox(master= app)
             pasta_base = os.path.dirname(__file__)
             caminho = os.path.join(pasta_base,".." ,"..", "banco_dados", "termos.txt")
             try:
@@ -80,21 +65,21 @@ class Cadastro:
             termo.configure(state="disabled")
             termo.place(relx = 0.5, rely = 0.4, relwidth = 0.6 , relheight= 0.6,anchor ="center")
         
-            confirm = CTkButton(master=cadastro, text="Continuar", corner_radius=32,fg_color="transparent")
+            confirm = CTkButton(master=app, text="Continuar", corner_radius=32,fg_color="transparent")
             confirm.place(relx = 0.5, rely = 0.8, relwidth = 0.25, anchor = "center")
             
             
             #Função que ve se o usuario aceitou ou não os termos de compromisso
             def aceitar() -> None:
                 if mostrar.get() == 1:
-                    confirm.configure(fg_color="#17C5CE",hover_color="#1299A0", state ="normal",command=lambda: self.criacao(termo, mostrar, confirm,app,btn))
+                    confirm.configure(fg_color="#17C5CE",hover_color="#1299A0", state ="normal",command=lambda: self.criacao(termo, mostrar, confirm,app))
                 else:
                     confirm.configure(fg_color="transparent", state = "disabled" , command=lambda: None)
 
-            mostrar = CTkCheckBox(master= cadastro, text="Li e concordo com os termos", corner_radius= 4, fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16, command= aceitar )
+            mostrar = CTkCheckBox(master= app, text="Li e concordo com os termos", corner_radius= 4, fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16, command= aceitar )
             mostrar.place(relx = 0.5, rely = 0.75, relwidth = 0.4, relheight = 0.03, anchor = "center")
      #Autentificador de dados coletados, previne email e usuarios repetidos
-     def autenticar(self, erro_label: CTkLabel, app: CTk) -> None:
+     def autenticar(self, erro_label: CTkLabel, app: CTkToplevel) -> None:
         email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         senha_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$"
         if self.user.get() == "" or self.email_.get() == "" or self.cpf.get() == "" or self.cep.get() == "" or self.password.get() == "" or self.cpassword.get() == "":
@@ -143,27 +128,24 @@ class Cadastro:
         self.senha = self.password.get()
         app.destroy()
 
-     def cadastro(self) -> None:
-        app = CTk()
+     def cadastro(self, login:CTk) -> None:
+        app = CTkToplevel(login)
         app.geometry("500x700")
         app.title("Cadastrar")
-
-        cadastro = CTkFrame(master = app, fg_color=("#DDE7E7", "#2C2C2C"),width = 500, height = 700 )
-        cadastro.place(relx = 0.5, rely = 0.5,anchor = "center")
+        app.transient(master=login)
         
-        erro_label = CTkLabel(master=cadastro, text="", text_color="red")
+        erro_label = CTkLabel(master=app, text="", text_color="red")
         erro_label.place(relx=0.5, rely=0.85, anchor="center")
-        
+
         #Selecionador de Planos
-        normal = CTkButton(master = cadastro, text = "Plano padrão \n\n R$00,00\n\n ● Calculo de qual\nsupermercado é\nmais economico\n\n ● Pequenas ofertas", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command =lambda: self.normal_select(normal, premium, app, cadastro, btn))
+        normal = CTkButton(master = app, text = "Plano padrão \n\n R$00,00\n\n ● Calculo de qual\nsupermercado é\nmais economico\n\n ● Pequenas ofertas", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command =lambda: self.normal_select(normal, premium, app))
         normal.place(relx = 0.28, rely = 0.5, relwidth = 0.4 , relheight= 0.6,anchor ="center")
 
-        premium = CTkButton(master = cadastro,text = "Plano Premium \n\n R$12,90\n\n ● Ofertas maiores \n\n ● Calcula o gasto de \ncombustivel\n\n ● Visualização de\nchegada de produtos", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command=lambda: self.premium_select(normal, premium, app,cadastro, btn))
+        premium = CTkButton(master = app,text = "Plano Premium \n\n R$12,90\n\n ● Ofertas maiores \n\n ● Calcula o gasto de \ncombustivel\n\n ● Visualização de\nchegada de produtos", fg_color= "transparent", border_color= "#17C5CE", border_width=2, hover_color=("#B4B4B4", "#161616"), text_color=("#000000", "#FFFFFF"),font=("Arial", 16, "bold"), command=lambda: self.premium_select(normal, premium, app))
         premium.place(relx = 0.72, rely = 0.5, relwidth = 0.4 , relheight= 0.6,anchor ="center")
 
-        btn = CTkButton(master=cadastro, text="Criar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command=lambda: self.autenticar(erro_label, app))
+        self.btn = CTkButton(master=app, text="Criar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command=lambda: self.autenticar(erro_label, app))
         
-        app.mainloop()
 
      def assinar_premium (self, app, usuario)-> None:
         app1 = CTkToplevel(app)

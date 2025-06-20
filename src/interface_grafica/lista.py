@@ -10,13 +10,11 @@ class Lista:
         self.caminho_lista = os.path.join(pasta_base,".." ,"..", "banco_dados", "lista_compras.json")
         
 
-    def hover_on(self, event, botao: CTkLabel) -> None:
-        botao.configure(font=self.normal)
-        botao.cget("font").configure(underline = True)
+    def hover_onl(self, event, botao: CTkLabel) -> None:
+        botao.configure(font=("Montserrat", 18, "underline", "bold"))
 
-    def hover_off(self, event, botao:CTkLabel) -> None:
-        botao.configure(font=self.font_normal)
-        botao.cget("font").configure(underline = False)
+    def hover_offl(self, event, botao:CTkLabel) -> None:
+        botao.configure(font=("Montserrat", 18, "bold"))
     
     def expandir_lista(self, categoria:CTkFrame) -> None:
         if categoria.expandido:
@@ -30,8 +28,7 @@ class Lista:
 
         categoria.master.update_idletasks()
  
-    
-    def abrir_lista(self, app) -> None:
+    def abrir_lista(self, app: CTk) -> None:
         app1 = CTkToplevel(app)
         app1.geometry("500x700")
         app1.title("Lista de Compras")
@@ -39,8 +36,6 @@ class Lista:
 
         self.selected2 = self.carregar_icones("selected.png", (16,16))
         self.not_selected2 = self.carregar_icones("not_selected2.png", (16,16))
-
-        self.font_normal = CTkFont(family="Montserrat", size=18, weight="bold")
 
         with open(self.caminho_lista, "r", encoding="utf-8") as f:
             setores = json.load(f)
@@ -70,8 +65,8 @@ class Lista:
             imagem_categoria.pack(fill="x", anchor="w", pady=10, padx=(0,0))
 
             imagem_categoria.bind("<Button-1>", lambda event, current_categoria=categoria: self.expandir_lista(current_categoria))
-            imagem_categoria.bind("<Enter>", lambda event, lbl=imagem_categoria: self.hover_on(event, lbl))
-            imagem_categoria.bind("<Leave>", lambda event, lbl=imagem_categoria: self.hover_off(event, lbl))
+            imagem_categoria.bind("<Enter>", lambda event, lbl=imagem_categoria: self.hover_onl(event, lbl))
+            imagem_categoria.bind("<Leave>", lambda event, lbl=imagem_categoria: self.hover_offl(event, lbl))
 
             categoria.expandido = False
             categoria.botao_ref = imagem_categoria

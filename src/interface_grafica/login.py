@@ -6,7 +6,6 @@ from PIL import Image
 
 
 class Login:
-
     def __init__(self, senha, nome, email) -> None:
         self.senha = senha
         self.nome = nome
@@ -41,10 +40,10 @@ class Login:
             btn.place(relx = 0.5, rely = 0.75, relwidth = 0.2, anchor = "center")
             erro_label.configure(text="Usuário ou senha incorretos!")
 
-    def hover_on(self, event, cadastro: CTkButton):
+    def hover_on(self, event, cadastro: CTkButton) -> None:
         cadastro.configure(font=("Montserrat", 12, "underline"))
 
-    def hover_off(self, event, cadastro: CTkButton):
+    def hover_off(self, event, cadastro: CTkButton) -> None:
         cadastro.configure(font=("Montserrat", 12))
 
     def login(self) -> None:

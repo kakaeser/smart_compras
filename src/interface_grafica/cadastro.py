@@ -1,6 +1,9 @@
 from customtkinter import *
 from manipulador_classes.manipulador_user import Manipulador_User
 import re
+from usuario_classes.usuario import Usuario
+from usuario_classes.usuariopremium import UsuarioPremium
+from typing import Union
 
 class Cadastro:
      def __init__(self):
@@ -43,7 +46,6 @@ class Cadastro:
         normal.destroy()
         premium.destroy()
         self.forma_pagamento(app,"termos")
-
     #Seleção de plano gratuito
      def normal_select(self, normal: CTkButton, premium: CTkButton, app: CTkToplevel) -> None:
         self.select = False
@@ -51,7 +53,6 @@ class Cadastro:
         premium.destroy()
         self.termos(app)
     
-     
      def termos(self,app: CTkToplevel) -> None:
             termo = CTkTextbox(master= app)
             pasta_base = os.path.dirname(__file__)
@@ -146,8 +147,7 @@ class Cadastro:
 
         self.btn = CTkButton(master=app, text="Criar", corner_radius=32,fg_color="#17C5CE",hover_color="#1299A0", command=lambda: self.autenticar(erro_label, app))
         
-
-     def assinar_premium (self, app, usuario)-> None:
+     def assinar_premium (self, app:CTk, usuario: Union[Usuario, UsuarioPremium])-> None:
         app1 = CTkToplevel(app)
         app1.geometry("500x700")
         app1.title("Plano Premium")

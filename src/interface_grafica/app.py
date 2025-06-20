@@ -51,7 +51,7 @@ class App:
             card.adicional.bind("<Button-4>", scroll_linux) 
             card.adicional.bind("<Button-5>", scroll_linux)
 
-    def Tema(self, checkbox : CTkCheckBox) -> None:
+    def Tema_A(self, checkbox : CTkCheckBox) -> None:
         if checkbox.get() == 1:
             set_appearance_mode("light")
         else:
@@ -197,7 +197,7 @@ class App:
         btnlogout = CTkButton(master = frameconfig, text= "Logout", command =lambda: self.logout(app), corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = self.sair,text_color=("#808080", "#A0A0A0"))
         btnlogout.place(relx = 0.5, rely = 0.6, relwidth = 1, anchor = "center")
 
-        changeTheme = CTkSwitch(master= frameconfig, command = self.Tema, text="Tema claro",progress_color= "#1299A0")
+        changeTheme = CTkSwitch(master= frameconfig, command = lambda: self.Tema_A(changeTheme), text="Tema claro",progress_color= "#1299A0")
         changeTheme.place(relx = 0.4, rely = 0.85, anchor = "center")
 
         temaimage = CTkLabel(master= frameconfig, text="", image = self.tema)

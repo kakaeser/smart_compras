@@ -3,7 +3,7 @@ from customtkinter import *
 import os
 
 class Pagamento:
-    def toppix(self, app):
+    def toppix(self, app: CTkToplevel):
         frame_pix = CTkToplevel(app)
         frame_pix.geometry("600x700")
         frame_pix.title("PIX")
@@ -14,7 +14,6 @@ class Pagamento:
         imagem_pix = CTkLabel(master = frame_pix, text = "", image = imagem)
         imagem_pix.place(relx = 0.5, rely = 0.5, anchor="center")
         
-
     def forma_pagamento(self, app: CTk, comando:str)-> None:
          def aplicar_comando():
             credito.destroy()

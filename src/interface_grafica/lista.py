@@ -5,7 +5,7 @@ import json
 
 class Lista:
     def __init__(self):
-        self.lista_compras = {}
+        self.lista_compras = {} 
         pasta_base = os.path.dirname(__file__)
         self.caminho_lista = os.path.join(pasta_base,".." ,"..", "banco_dados", "lista_compras.json")
 

@@ -51,7 +51,7 @@ class App:
             card.adicional.bind("<Button-4>", scroll_linux) 
             card.adicional.bind("<Button-5>", scroll_linux)
 
-    def Tema(self, checkbox : CTkCheckBox) -> None:
+    def Tema_A(self, checkbox : CTkCheckBox) -> None:
         if checkbox.get() == 1:
             set_appearance_mode("light")
         else:
@@ -105,7 +105,7 @@ class App:
             step = -step
         self.animacao(end_x, step, barralat, central, frameconfig, app)
 
-    def cards(self, barra_pesquisa: CTkEntry, erro_label: CTkLabel, erro_imagem: CTkLabel, scroll: CTkScrollableFrame, usuario:Union[Usuario, UsuarioPremium]) -> None:
+    def pcards(self, barra_pesquisa: CTkEntry, erro_label: CTkLabel, erro_imagem: CTkLabel, scroll: CTkScrollableFrame, usuario:Union[Usuario, UsuarioPremium]) -> None:
         if self.lista_compras is None or not self.lista_compras:
             if barra_pesquisa.get() == "":
                 erro_label.configure(text="Ainda não temos uma lista ou busca, crie uma lista para aparecer os supermercados!")
@@ -197,7 +197,7 @@ class App:
         btnlogout = CTkButton(master = frameconfig, text= "Logout", command =lambda: self.logout(app), corner_radius = 0, fg_color = "transparent", hover_color=("#C7C7C7", "#474747"), image = self.sair,text_color=("#808080", "#A0A0A0"))
         btnlogout.place(relx = 0.5, rely = 0.6, relwidth = 1, anchor = "center")
 
-        changeTheme = CTkSwitch(master= frameconfig, command = self.Tema, text="Tema claro",progress_color= "#1299A0")
+        changeTheme = CTkSwitch(master= frameconfig, command = lambda: self.Tema_A(changeTheme), text="Tema claro",progress_color= "#1299A0")
         changeTheme.place(relx = 0.4, rely = 0.85, anchor = "center")
 
         temaimage = CTkLabel(master= frameconfig, text="", image = self.tema)
@@ -221,7 +221,7 @@ class App:
         lista = CTkButton(master= central, image= self.nova_lista, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command = lambda: self.abrir_lista(app))
         lista.place(relx= 0.024, rely=0.028, relwidth = 0.05,relheight = 0.055, anchor="center")
         
-        buscar = CTkButton(master= central, image=self.busca, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command =lambda: self.cards(barra_pesquisa, erro_label, erro_imagem, scroll, usuario))
+        buscar = CTkButton(master= central, image=self.busca, text="",corner_radius =0, fg_color=("#ADB4B4", "#2C2C2C"),hover_color=("#C7C7C7", "#474747"), command =lambda: self.pcards(barra_pesquisa, erro_label, erro_imagem, scroll, usuario))
         buscar.place(relx= 0.975, rely=0.028, relwidth = 0.05,relheight = 0.055, anchor="center")
         
         

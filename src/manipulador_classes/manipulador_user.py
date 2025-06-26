@@ -64,7 +64,7 @@ class Manipulador_User(Manipulador):
         return True  # Sucesso
 
     @staticmethod
-    def carregar_dados(identificador) -> Optional[Dict[str, Any]]:
+    def carregar_dados(identificador:str) -> Optional[Dict[str, Any]]:
         caminho = Manipulador_User.caminho_arquivo()
         if os.path.exists(caminho):
             with open(caminho, "r") as arquivo:
@@ -107,7 +107,7 @@ class Manipulador_User(Manipulador):
             return False
         
     @staticmethod
-    def conferir_dados(identificador) -> int:
+    def conferir_dados(identificador:str) -> int:
         dados_existentes = []
 
         caminho = Manipulador_User.caminho_arquivo()

@@ -6,7 +6,6 @@ from PIL import Image
 
 
 class Login:
-
     def __init__(self, senha, nome, email) -> None:
         self.senha = senha
         self.nome = nome
@@ -41,10 +40,10 @@ class Login:
             btn.place(relx = 0.5, rely = 0.75, relwidth = 0.2, anchor = "center")
             erro_label.configure(text="Usuário ou senha incorretos!")
 
-    def hover_on(self, event, cadastro: CTkButton):
+    def hover_on(self, event, cadastro: CTkButton) -> None:
         cadastro.configure(font=("Montserrat", 12, "underline"))
 
-    def hover_off(self, event, cadastro: CTkButton):
+    def hover_off(self, event, cadastro: CTkButton) -> None:
         cadastro.configure(font=("Montserrat", 12))
 
     def login(self) -> None:
@@ -82,7 +81,7 @@ class Login:
             mostrar = CTkCheckBox(master= login, text="Mostra senha", corner_radius= 4, fg_color="#17C5CE", checkbox_height= 16, checkbox_width= 16, command=lambda: self.mostraSenha(mostrar, password))
             mostrar.place(relx = 0.5, rely = 0.57, relwidth = 0.25, relheight = 0.08, anchor = "center")
 
-            cadastro = CTkButton(master=login, text="Criar uma nova conta", font = ("Montserrat", 12), fg_color="transparent",text_color="#807D7D",hover="#6B6B6B", cursor="hand2", command = self.cadastro)
+            cadastro = CTkButton(master=login, text="Criar uma nova conta", font = ("Montserrat", 12), fg_color="transparent",text_color="#807D7D",hover="#6B6B6B", cursor="hand2", command =lambda: self.cadastro(app))
             cadastro.place(relx = 0.5, rely = 0.63, relwidth = 0.3, anchor = "center")
             cadastro.bind("<Enter>", lambda event: self.hover_on(event, cadastro))
             cadastro.bind("<Leave>", lambda event: self.hover_off(event, cadastro))

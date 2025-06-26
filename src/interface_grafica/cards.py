@@ -1,6 +1,7 @@
 from customtkinter import *
-from PIL import Image
-import os
+from usuario_classes.usuario import Usuario
+from usuario_classes.usuariopremium import UsuarioPremium
+from typing import Union
 import random
 
 class Cards:
@@ -34,7 +35,7 @@ class Cards:
 
         card.master.update_idletasks()
         
-    def abrir_cards(self, scroll, usuario) -> None:
+    def abrir_cards(self, scroll:CTkScrollableFrame, usuario:Union[Usuario, UsuarioPremium]) -> None:
         self.fechar_cards()
 
         self.lista = self.carregar_icones("lista.png", (16,16))

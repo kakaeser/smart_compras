@@ -1,10 +1,13 @@
 from customtkinter import *
 from manipulador_classes.manipulador_user import Manipulador_User
+from usuario_classes.usuario import Usuario
+from usuario_classes.usuariopremium import UsuarioPremium
 import re
+from typing import Union
 
 class User():
     #Inicialização de uma janela que mostra os dados do usuario e pode edita-los
-  def mostrar_usuario(self,app,usuario) -> None:
+  def mostrar_usuario(self,app: CTk,usuario:Union[Usuario, UsuarioPremium]) -> None:
     app1 = CTkToplevel(app)
     app1.geometry("500x700")
     app1.title("Usuário")

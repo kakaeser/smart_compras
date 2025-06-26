@@ -1,6 +1,8 @@
 from customtkinter import *
 from usuario_classes.usuario import Usuario
 from usuario_classes.usuariopremium import UsuarioPremium
+from manipulador_classes.manipulador_sup import Manipulador_Sup
+from sup_classes.supermercado import Supermercado
 from typing import Union
 import random
 
@@ -39,12 +41,19 @@ class Cards:
         self.fechar_cards()
 
         self.lista = self.carregar_icones("lista.png", (16,16))
-        self.market = self.carregar_supermercados("market.png", (192,144))
         self.distancia = self.carregar_icones("distancia.png",(16,16))
         
         numero = sum(self.lista_compras.values())
+        nomes = Manipulador_Sup.achar_nomes()
+        objetos = []
+
+        for nome in nomes:
+            dados = Manipulador_Sup.carregar_dados(nome)
+            objetos.append(Supermercado(dados))
+
+        objetos.sort(key=lambda sup: sup.preco_final(self.lista_compras))
         
-        for i in range(20):
+        for inst in objetos:
             card_height_comprimido = 160
             card_height_expandido = 196 + (numero*30)
 
@@ -55,14 +64,19 @@ class Cards:
             card.original_height = card_height_comprimido
             card.expanded_height = card_height_expandido
 
-            imagem = CTkLabel(master= card, text = "", image =self.market)
+            superlogo = self.carregar_supermercados(inst.imagem, (192,144))
+
+            imagem = CTkLabel(master= card, text = "", image = superlogo)
             imagem.place(relx = 0.14, y = 50, anchor="center")
             
-            nome_mercado= CTkLabel(master= card, text = f"Supermercado {i+1} - R${i+15},00", font=("Montserrat", 28, "bold"))
+            nome_mercado= CTkLabel(master= card, text = f"{inst.nome} - R${inst.preco_final(self.lista_compras):.2f}", font=("Montserrat", 28, "bold"))
             nome_mercado.place(relx = 0.25, y = 30, anchor="w")
 
             if len(usuario.id_user) == 8:
-                distancia = CTkLabel(master= card, text = f" Distância = {usuario.calcular_distancia(i*100,0)}m", font=("Montserrat", 22), compound="left", image = self.distancia)
+                dist = usuario.calcular_distancia(inst.distancia_x,inst.distancia_y)
+                distancia = CTkLabel(master= card, text = f" Distância = {dist:.2f}m", font=("Montserrat", 22), compound="left", image = self.distancia)
+                if dist >= 1000:
+                    distancia.configure(text = f"Distância = {dist:.2f}km")
                 distancia.place(relx = 0.25, y = 60, anchor="w")
 
             card.adicional = CTkFrame(master=card, fg_color="transparent")
@@ -70,8 +84,7 @@ class Cards:
             CTkLabel(master=card.adicional, text=" Lista de produtos:", image = self.lista, font=("Montserrat", 16, "bold"), compound ="left").pack(pady=2, anchor="w")
             for produto_nome, foi_selecionado in self.lista_compras.items():
                 if foi_selecionado == 1:
-                    valor = random.randint(11, 120)
-                    CTkLabel(master=card.adicional, text=f"{produto_nome}: R${valor},00", font=("Montserrat", 16), wraplength=250).pack(pady=2, anchor="w")
+                    CTkLabel(master=card.adicional, text=f"{produto_nome}: R${inst.produtos[produto_nome]}", font=("Montserrat", 16), wraplength=250).pack(pady=2, anchor="w")
                                                                                                                                               
             card.adicional.place_forget()
 
@@ -90,4 +103,3 @@ class Cards:
                 card.destroy()
         self.cards.clear()
         self.current_expanded_card = None
-    

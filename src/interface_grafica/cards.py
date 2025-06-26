@@ -76,6 +76,7 @@ class Cards:
                 dist = usuario.calcular_distancia(inst.distancia_x,inst.distancia_y)
                 distancia = CTkLabel(master= card, text = f" Distância = {dist:.2f}m", font=("Montserrat", 22), compound="left", image = self.distancia)
                 if dist >= 1000:
+                    dist = dist/1000
                     distancia.configure(text = f"Distância = {dist:.2f}km")
                 distancia.place(relx = 0.25, y = 60, anchor="w")
 
